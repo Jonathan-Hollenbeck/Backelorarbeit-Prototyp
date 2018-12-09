@@ -1,0 +1,45 @@
+.spielfeld {
+  width: 500px;
+  float: left;
+}
+
+.spielfeldHintergrund {
+    width: 500px;
+    height: auto;
+    display: block;
+    z-index: 1;
+}
+
+.spieler {
+  position: absolute;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  z-index: 2;
+  color: white;
+}
+
+.abwehrspieler {
+  background-color: blue;
+}
+
+.angriffspieler {
+  background-color: red;
+}
+
+.ball {
+  position: absolute;
+  background: black;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  z-index: 3;
+}
+
+.legende {
+  text-align: center;
+}
+
+.optionen {
+}

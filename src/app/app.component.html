@@ -1,21 +1,74 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<div style="text-align: center">
   <h1>
-    Welcome to {{ title }}!
+    Angular Prototyp
   </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
+<!-- Spielfeld -->
+<div class="spielfeld">
+  <!-- Spielfeld Hintergrund -->
+  <img class="spielfeldHintergrund" src="assets/images/spielfeld.jpg" alt="Spielfeld">
+  <!-- Abwehrspieler -->
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[0].move, params:{x: abwehrspieler[0].x, y: abwehrspieler[0].y}}">{{abwehrspieler[0].name}}</div>
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[1].move, params:{x: abwehrspieler[1].x, y: abwehrspieler[1].y}}">{{abwehrspieler[1].name}}</div>
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[2].move, params:{x: abwehrspieler[2].x, y: abwehrspieler[2].y}}">{{abwehrspieler[2].name}}</div>
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[3].move, params:{x: abwehrspieler[3].x, y: abwehrspieler[3].y}}">{{abwehrspieler[3].name}}</div>
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[4].move, params:{x: abwehrspieler[4].x, y: abwehrspieler[4].y}}">{{abwehrspieler[4].name}}</div>
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[5].move, params:{x: abwehrspieler[5].x, y: abwehrspieler[5].y}}">{{abwehrspieler[5].name}}</div>
+  <div class="spieler abwehrspieler" [@movePlayer]="{value: abwehrspieler[6].move, params:{x: abwehrspieler[6].x, y: abwehrspieler[6].y}}">{{abwehrspieler[6].name}}</div>
+  <!-- Angriffspieler -->
+  <div class="spieler angriffspieler" [@movePlayer]="{value: angriffspieler[0].move, params:{x: angriffspieler[0].x, y: angriffspieler[0].y}}">{{angriffspieler[0].name}}</div>
+  <div class="spieler angriffspieler" [@movePlayer]="{value: angriffspieler[1].move, params:{x: angriffspieler[1].x, y: angriffspieler[1].y}}">{{angriffspieler[1].name}}</div>
+  <div class="spieler angriffspieler" [@movePlayer]="{value: angriffspieler[2].move, params:{x: angriffspieler[2].x, y: angriffspieler[2].y}}">{{angriffspieler[2].name}}</div>
+  <div class="spieler angriffspieler" [@movePlayer]="{value: angriffspieler[3].move, params:{x: angriffspieler[3].x, y: angriffspieler[3].y}}">{{angriffspieler[3].name}}</div>
+  <div class="spieler angriffspieler" [@movePlayer]="{value: angriffspieler[4].move, params:{x: angriffspieler[4].x, y: angriffspieler[4].y}}">{{angriffspieler[4].name}}</div>
+  <div class="spieler angriffspieler" [@movePlayer]="{value: angriffspieler[5].move, params:{x: angriffspieler[5].x, y: angriffspieler[5].y}}">{{angriffspieler[5].name}}</div>
+  <!-- Ball -->
+  <div class="ball" [@moveBall]="{value: ballwhere, params:{ballx: ballx, bally: bally}}"></div>
+  <!-- Legende -->
+  <div class="legende">
+    <div class="legendeAngriff">
+      Angriff: LA = Linksaußen, RL = Rückraum Links, RM = Rückraum Mitte,
+      RR = Rückraum Rechts, RA = Rechtsaußen, KM = Kreis Mitte
+    </div>
+    <div class="legendsAbwehr">
+      Abwehr: AR = Außen Rechts, HR = Hinten Rechts, HM = Hinten Mitte, HL = Hinten Links,
+      AL = Außen Links, VM = Vorne Mitte, TW = Torwart
+    </div>
+  </div>
+</div>
+
+<!-- Optionen -->
+<div class="optionen">
+  <h2>Optionen</h2>
+  <!-- Button zum starten des Ballwechsels -->
+  <p><button (click)="startstopLoop()">startstopLoop</button></p>
+  <!--Dropdownmenue zum auswaehlen des Spielers, denn man bearbeiten will -->
+  <select (change)="changeSelectedPlayerHandler($event.target.value)">
+    <option [value]="abwehrspieler.indexOf(spieler)" *ngFor="let spieler of abwehrspieler">
+      {{spieler.name}}
+    </option>
+  </select>
+  <!-- Auflistung aller Regeln fuer den ausgewaehlten Spieler -->
+  <p *ngFor="let rule of selectedSpieler.entscheidungsbaum">
+    Wenn
+    {{angriffspieler[rule.ballPlayerIndex].name}}
+    <select (change)="selectedSpieler.changeBallPlayerInRule($event.target.value)">
+      <option [value]="[selectedSpieler.entscheidungsbaum.indexOf(rule), angriffspieler.indexOf(ballSpielerOption)]"
+      *ngFor="let ballSpielerOption of angriffspieler">
+        {{ballSpielerOption.name}}
+      </option>
+    </select>
+    den Ball hat, dann bewege zu
+    <select (change)="selectedSpieler.changeMovePlayerInRule($event.target.value)">
+      <option [value]="[selectedSpieler.entscheidungsbaum.indexOf(rule), angriffspieler.indexOf(moveSpielerOption)]"
+      *ngFor="let moveSpielerOption of angriffspieler">
+        {{moveSpielerOption.name}}
+      </option>
+    </select>
+  </p>
+</div>
+
+
 
 <router-outlet></router-outlet>
