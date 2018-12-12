@@ -119,14 +119,29 @@ export class AppComponent implements OnInit {
   loop(){
     setTimeout(() => {
       this.moveBall();
+      this.checkForPlayermovement();
       if (this.doLoop == true) this.loop();
     }, 350);
+  }
+
+  checkForPlayermovement(){
+    for(let player of this.abwehrspieler){
+      for(let rule of player.entscheidungsbaum){
+        if(rule.movePlayerIndex == this.ballwhere){
+          if(rule.backToStart == true){
+            this.movePlayer(player, player.startX, player.startY);
+          } else {
+            this.movePlayer(player, this.angriffspieler[this.ballwhere].x, this.angriffspieler[this.ballwhere].y);
+          }
+        }
+      }
+    }
   }
 }
 
 class Player {
-  oldX: number;
-  oldY: number;
+  startX: number;
+  startY: number;
   x: number;
   y: number;
 
@@ -137,8 +152,8 @@ class Player {
   entscheidungsbaum: Rule[] = [];
 
   constructor(x:number, y:number, name: string){
-    this.oldX = x;
-    this.oldY = y;
+    this.startX = x;
+    this.startY = y;
     this.x = x;
     this.y = y;
 
@@ -150,19 +165,24 @@ class Player {
   }
 
   changeBallPlayerInRule(ruleAndBallPlayerIndex: any){
-    console.log(ruleAndBallPlayerIndex)
     this.entscheidungsbaum[ruleAndBallPlayerIndex[0]].ballPlayerIndex = ruleAndBallPlayerIndex[2];
   }
 
   changeMovePlayerInRule(ruleAndMovePlayerIndex: any){
-    console.log(ruleAndMovePlayerIndex);
-    this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].movePlayerIndex = ruleAndMovePlayerIndex[2];
+    if(ruleAndMovePlayerIndex[2] != "-"){
+      this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].movePlayerIndex = ruleAndMovePlayerIndex[2];
+      this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].backToStart = false;
+    } else {
+      this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].backToStart = true;
+    }
   }
 }
 
 class Rule {
   ballPlayerIndex: number;
   movePlayerIndex: number;
+
+  backToStart: boolean = false;
 
   constructor(ballPlayerIndex: number, movePlayerIndex: number){
     this.ballPlayerIndex = ballPlayerIndex;

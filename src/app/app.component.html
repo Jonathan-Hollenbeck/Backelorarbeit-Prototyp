@@ -60,11 +60,19 @@
       </option>
     </select>
     den Ball hat, dann bewege zu
+    <ng-container *ngIf="rule.backToStart != true; then thenTemplate; else elseTemplate"></ng-container>
+    <ng-template #thenTemplate>
+      {{angriffspieler[rule.movePlayerIndex].name}}
+    </ng-template>
+    <ng-template #elseTemplate>
+      Auf Start
+    </ng-template>
     <select (change)="selectedSpieler.changeMovePlayerInRule($event.target.value)">
       <option [value]="[selectedSpieler.entscheidungsbaum.indexOf(rule), angriffspieler.indexOf(moveSpielerOption)]"
       *ngFor="let moveSpielerOption of angriffspieler">
         {{moveSpielerOption.name}}
       </option>
+      <option [value]="[selectedSpieler.entscheidungsbaum.indexOf(rule), -1]">Auf Start</option>
     </select>
   </p>
 </div>
