@@ -1,0 +1,9 @@
+{
+  "spieler": 0,
+  "entscheidungsbaum": {
+    "rule": {
+      "ballwhere": 0,
+      "moveto": -1
+    }
+  }
+}
