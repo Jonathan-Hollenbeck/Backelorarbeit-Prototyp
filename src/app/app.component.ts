@@ -67,10 +67,15 @@ export class AppComponent implements OnInit {
   }
 
   initRules() {
-    var rules = require('../assets/rules/6_0_abwehr.json');
-    console.log(rules);
+    let rules = require('../assets/rules/6_0_abwehr.json');
+    rules.forEach(spieler => {
+      console.log(spieler.spieler_0);
+      spieler.entscheidungsbaum.forEach(rule =>{
+        console.log(rule);
+      })
+    });
     for(let abwehrspieler of this.abwehrspieler){
-      for(var i = 0; i < this.angriffspieler.length; i++){
+      for(let i = 0; i < this.angriffspieler.length; i++){
         abwehrspieler.addRule(i, i);
       }
     }
