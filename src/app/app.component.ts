@@ -11,14 +11,14 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
         left: '{{x}}px',
         top: '{{y}}px',
       }), {params: {x: 200, y: 100}}),
-      transition('*=>*', animate('300ms'))
+      transition('*=>*', animate('700ms'))
     ]),
     trigger('moveBall', [
       state("0,1,2,3,4,5", style({
         left: '{{ballx}}px',
         top: '{{bally}}px',
       }), {params: {ballx: 50, bally: 50}}),
-      transition('*=>*', animate('300ms'))
+      transition('*=>*', animate('700ms'))
     ])
   ]
 })
@@ -68,17 +68,11 @@ export class AppComponent implements OnInit {
 
   initRules() {
     let rules = require('../assets/rules/6_0_abwehr.json');
-    rules.forEach(spieler => {
-      console.log(spieler.spieler_0);
+    rules.spieler.forEach(spieler => {
       spieler.entscheidungsbaum.forEach(rule =>{
-        console.log(rule);
+        this.abwehrspieler[spieler.spieler_id].addRule(rule.ballwhere, rule.moveto);
       })
     });
-    for(let abwehrspieler of this.abwehrspieler){
-      for(let i = 0; i < this.angriffspieler.length; i++){
-        abwehrspieler.addRule(i, i);
-      }
-    }
   }
 
   changeSelectedPlayerHandler(abwehrspielerIndex: number) {
@@ -121,24 +115,24 @@ export class AppComponent implements OnInit {
     if(this.doLoop == true){
       this.loop();
     }
-  }
+  } 
 
   loop(){
     setTimeout(() => {
       this.moveBall();
       this.checkForPlayermovement();
       if (this.doLoop == true) this.loop();
-    }, 350);
+    }, 750);
   }
 
   checkForPlayermovement(){
     for(let player of this.abwehrspieler){
       for(let rule of player.entscheidungsbaum){
-        if(rule.movePlayerIndex == this.ballwhere){
+        if(rule.ballPlayerIndex == this.ballwhere){
           if(rule.backToStart == true){
             this.movePlayer(player, player.startX, player.startY);
           } else {
-            this.movePlayer(player, this.angriffspieler[this.ballwhere].x, this.angriffspieler[this.ballwhere].y);
+            this.movePlayer(player, this.angriffspieler[rule.movePlayerIndex].x, this.angriffspieler[rule.movePlayerIndex].y);
           }
         }
       }
@@ -194,5 +188,8 @@ class Rule {
   constructor(ballPlayerIndex: number, movePlayerIndex: number){
     this.ballPlayerIndex = ballPlayerIndex;
     this.movePlayerIndex = movePlayerIndex;
+    if(movePlayerIndex == -1){
+      this.backToStart = true;
+    }
   }
 }

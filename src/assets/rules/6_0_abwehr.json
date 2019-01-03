@@ -1,181 +1,158 @@
-[{
-  "spieler_0": {
-    "spieler_index": 0,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": 0
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": -1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": -1
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": -1
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": -1
-      }
-    }]
-  },
-  "spieler_1": {
-    "spieler_index": 1,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": -1
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": 1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": -1
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": -1
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": -1
-      }
-    }]
-  },
-  "spieler_2": {
-    "spieler_index": 2,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": -1
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": -1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": 2
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": -1
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": -1
-      }
-    }]
-  },
-  "spieler_3": {
-    "spieler_index": 3,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": -1
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": -1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": -1
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": -1
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": -1
-      }
-    }]
-  },
-  "spieler_4": {
-    "spieler_index": 4,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": -1
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": -1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": -1
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": 3
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": -1
-      },
-      "regel_5": {
-        "ballwhere": 5,
-        "moveto": -1
-      }
-    }]
-  },
-  "spieler_5": {
-    "spieler_index": 5,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": -1
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": -1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": -1
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": -1
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": 4
-      }
-    }]
-  },
-  "spieler_5": {
-    "spieler_index": 5,
-    "entscheidungsbaum": [{
-      "regel_0": {
-        "ballwhere": 0,
-        "moveto": -1
-      },
-      "regel_1": {
-        "ballwhere": 1,
-        "moveto": -1
-      },
-      "regel_2": {
-        "ballwhere": 2,
-        "moveto": -1
-      },
-      "regel_3": {
-        "ballwhere": 3,
-        "moveto": -1
-      },
-      "regel_4": {
-        "ballwhere": 4,
-        "moveto": -1
-      }
-    }]
-  }
-}]
+{
+  "spieler": [
+    { 
+      "spieler_id": 0,
+      "entscheidungsbaum": [
+        {
+          "ballwhere": 0,
+          "moveto": 0
+        },
+        {
+          "ballwhere": 1,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 2,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 3,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 4,
+          "moveto": -1
+        }
+      ]
+    },
+    {
+      "spieler_id": 1,
+      "entscheidungsbaum": [
+        {
+          "ballwhere": 0,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 1,
+          "moveto": 1
+        },
+        {
+          "ballwhere": 2,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 3,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 4,
+          "moveto": -1
+        }
+      ]
+    },
+    {
+      "spieler_id": 2,
+      "entscheidungsbaum": [
+        {
+          "ballwhere": 0,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 1,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 2,
+          "moveto": 2
+        },
+        {
+          "ballwhere": 3,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 4,
+          "moveto": -1
+        }
+      ]
+    },
+    {
+      "spieler_id": 3,
+      "entscheidungsbaum": [
+        {
+          "ballwhere": 0,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 1,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 2,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 3,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 4,
+          "moveto": -1
+        }
+      ]
+    },
+    {
+      "spieler_id": 4,
+      "entscheidungsbaum": [
+        {
+          "ballwhere": 0,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 1,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 2,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 3,
+          "moveto": 3
+        },
+        {
+          "ballwhere": 4,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 5,
+          "moveto": -1
+        }
+      ]
+    },
+    {
+      "spieler_id": 5,
+      "entscheidungsbaum": [
+        {
+          "ballwhere": 0,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 1,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 2,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 3,
+          "moveto": -1
+        },
+        {
+          "ballwhere": 4,
+          "moveto": 4
+        }
+      ]
+    }
+  ]
+}

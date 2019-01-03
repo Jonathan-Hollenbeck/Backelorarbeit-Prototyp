@@ -60,7 +60,7 @@
       </option>
     </select>
     den Ball hat, dann bewege zu
-    <ng-container *ngIf="rule.backToStart != true; then thenTemplate; else elseTemplate"></ng-container>
+    <ng-container *ngIf="rule.backToStart == false; then thenTemplate; else elseTemplate"></ng-container>
     <ng-template #thenTemplate>
       {{angriffspieler[rule.movePlayerIndex].name}}
     </ng-template>
