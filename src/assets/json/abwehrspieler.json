@@ -1,0 +1,39 @@
+{
+  "spieler": [
+    {
+      "spieler_name": "AR",
+      "spieler_x": 400,
+      "spieler_y": 400
+    },
+    {
+      "spieler_name": "HR",
+      "spieler_x": 350,
+      "spieler_y": 350
+    },
+    {
+      "spieler_name": "HM1",
+      "spieler_x": 200,
+      "spieler_y": 340
+    },
+    {
+      "spieler_name": "HM2",
+      "spieler_x": 300,
+      "spieler_y": 340
+    },
+    {
+      "spieler_name": "HL",
+      "spieler_x": 130,
+      "spieler_y": 350
+    },
+    {
+      "spieler_name": "AL",
+      "spieler_x": 80,
+      "spieler_y": 400
+    },
+    {
+      "spieler_name": "TW",
+      "spieler_x": 240,
+      "spieler_y": 470
+    }
+  ]
+}
