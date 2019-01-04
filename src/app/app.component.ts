@@ -79,28 +79,26 @@ export class AppComponent implements OnInit {
 
   //Hilfsmethode um die Spieler zu Initialisieren. Kann wahrscheinlich auch in eine JSON
   initPlayers() {
-    //Angriffspieler
-    this.angriffspieler.push(new Player(460, 370, "LA"));
-    this.angriffspieler.push(new Player(370, 220, "RL"));
-    this.angriffspieler.push(new Player(240, 200, "RM"));
-    this.angriffspieler.push(new Player(100, 220, "RR"));
-    this.angriffspieler.push(new Player(10, 370, "RA"));
-    this.angriffspieler.push(new Player(240, 340, "KM"));
-    //Abwehrspieler
-    this.abwehrspieler.push(new Player(400, 400, "AR"));
-    this.abwehrspieler.push(new Player(350, 350, "HR"));
-    this.abwehrspieler.push(new Player(200, 340, "HM1"));
-    this.abwehrspieler.push(new Player(300, 340, "HM2"));
-    this.abwehrspieler.push(new Player(130, 350, "HL"));
-    this.abwehrspieler.push(new Player(80, 400, "AL"));
-    this.abwehrspieler.push(new Player(240, 470, "TW"));
+    //Angriffspieler JSON einlesen
+    let angriff = require('../assets/json/angriffspieler.json');
+    //durch alle Spieler laufen und in angriffspieler pushen
+    angriff.spieler.forEach(spieler => {
+      this.angriffspieler.push(new Player(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
+    });
+    //Abwehrspieler JSON einlesen
+    let abwehr = require('../assets/json/abwehrspieler.json');
+    //durch alle Spieler laufen und in abwehrspieler pushen
+    abwehr.spieler.forEach(spieler => {
+      this.abwehrspieler.push(new Player(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
+    });
+    //selected Spieler auf den ersten Abwehrspieler setzen
     this.changeSelectedPlayerHandler(0);
   }
 
   //Initialisiere Regeln fuer Spieler aus einer JSON Datei
   initRules() {
-    //Json einlesen
-    let rules = require('../assets/rules/6_0_abwehr.json');
+    //JSON einlesen
+    let rules = require('../assets/json/6_0_abwehr.json');
     //durch alle Spieler laufen und Regeln einspeichern
     rules.spieler.forEach(spieler => {
       spieler.entscheidungsbaum.forEach(rule =>{
