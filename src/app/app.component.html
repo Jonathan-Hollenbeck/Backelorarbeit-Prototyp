@@ -60,7 +60,7 @@
     <ng-template #elseTemplateballwo>
       egal
     </ng-template>
-    <select (change)="selectedSpieler.changeBallSpielerInRule($event.target.value)">
+    <select (change)="selectedSpieler.changeBallSpielerInAktion($event.target.value)">
       <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), angriffspieler.indexOf(ballSpielerOption)]"
       *ngFor="let ballSpielerOption of angriffspieler">
         {{ballSpielerOption.name}}
@@ -83,7 +83,7 @@
     <ng-template #elseTemplatespielrichtung>
       egal
     </ng-template>
-    <select (change)="selectedSpieler.changeBallSpielerInRule($event.target.value)">
+    <select (change)="selectedSpieler.changeBallSpielerInAktion($event.target.value)">
       <option [value]="[1]">Links</option>
       <option [value]="[0]">Rechts</option>
       <option [value]="[-1]">egal</option>
@@ -98,7 +98,7 @@
     <ng-template #elseTemplatebewegezu>
       Auf Start
     </ng-template>
-    <select (change)="selectedSpieler.changebewegeSpielerInRule($event.target.value)">
+    <select (change)="selectedSpieler.changebewegeSpielerInAktion($event.target.value)">
       <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), angriffspieler.indexOf(bewegeSpielerOption)]"
       *ngFor="let bewegeSpielerOption of angriffspieler">
         {{bewegeSpielerOption.name}}

@@ -190,25 +190,32 @@ export class AppComponent implements OnInit {
     let bewegezu: number = -1;
     for(let spieler of this.abwehrspieler){
       if(spieler.relevanzen.ballwo == true){
-        console.log("ballwo relevant")
+        //ballwo relevant
         if(spieler.relevanzen.spielrichtung == true){
-          console.log("und spielrichtung relevant")
-          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: this.spielrichtung})
+          //spielrichtung relevant
+          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: this.spielrichtung})
         }
         else{
-          console.log(spieler.name + " Aktion fuer Spieler")
-          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: -1})
+          //spielrichtung unrelevant
+          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: -1})
         }
       }
       else{
+        //ballwo unrelevent
         if(spieler.relevanzen.spielrichtung == true){
-          console.log("spielrichtung relevant")
-          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: this.spielrichtung})
+          //spielrichtung relevant
+          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: this.spielrichtung})
         }
         else{
-          console.log(spieler.name + " Aktion DEFAULT")
-          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: -1})
+          //spielrichtung unrelevant
+          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: -1})
         }
+      }
+      if(bewegezu == -1){
+        this.bewegeSpieler(spieler, spieler.startX, spieler.startY);
+      }
+      else{
+        this.bewegeSpieler(spieler, this.angriffspieler[bewegezu].x, this.angriffspieler[bewegezu].y);
       }
     }
   }
@@ -236,7 +243,7 @@ class Spieler {
   Dabei sind ballwo und bewegezu die id fuer den Angriffspieler zu dem sich hinbewegt werden soll.
   Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwo = -1 und spielrichtung = -1.
   */
-  aktionstabelle: any[] = [];
+  aktionstabelle: any = [];
 
   //hier werden die Relevanzen fuer den Entscheidungsbaum gespeichert
   relevanzen: any = {
@@ -260,28 +267,28 @@ class Spieler {
       ballwo: ballSpielerIndex,
       spielrichtung: spielrichtung,
       bewegezu: bewegeSpielerIndex});
-      this.checkRelevanzen();
+    this.checkRelevanzen();
   }
 
   //Methode zum aendern des Spielers der den Ball hat in einer Regel.
-  changeBallSpielerInRule(ruleAndBallSpielerIndex: any){
-    //this.entscheidungsbaum[ruleAndBallSpielerIndex[0]].ballSpielerIndex = ruleAndBallSpielerIndex[2];
+  changeBallSpielerInAktion(aktionAndBallSpielerIndex: any){
+    //this.entscheidungsbaum[aktionAndBallSpielerIndex[0]].ballSpielerIndex = aktionAndBallSpielerIndex[2];
   }
 
   //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
-  changebewegeSpielerInRule(ruleAndbewegeSpielerIndex: any){
-    /**if(ruleAndbewegeSpielerIndex[2] != "-"){
-      this.entscheidungsbaum[ruleAndbewegeSpielerIndex[0]].bewegeSpielerIndex = ruleAndbewegeSpielerIndex[2];
-      this.entscheidungsbaum[ruleAndbewegeSpielerIndex[0]].backToStart = false;
+  changebewegeSpielerInAktion(aktionAndbewegeSpielerIndex: any){
+    /**if(aktionAndbewegeSpielerIndex[2] != "-"){
+      this.entscheidungsbaum[aktionAndbewegeSpielerIndex[0]].bewegeSpielerIndex = aktionAndbewegeSpielerIndex[2];
+      this.entscheidungsbaum[aktionAndbewegeSpielerIndex[0]].backToStart = false;
     } else {
-      this.entscheidungsbaum[ruleAndbewegeSpielerIndex[0]].backToStart = true;
+      this.entscheidungsbaum[aktionAndbewegeSpielerIndex[0]].backToStart = true;
     }*/
   }
 
   checkRelevanzen(){
     let ballwo: boolean = false;
     let spielrichtung: boolean = false;
-    for(let aktion of aktionstabelle){
+    for(let aktion of this.aktionstabelle){
       if(aktion.ballwo > -1){
         ballwo = true;
       }
