@@ -14,7 +14,7 @@ Ausserdem werden hier die Animationen erstellt.
     In trigger wird der Name der Animation festgelegt
     um sie im HTML Code aufzurufen.
     */
-    trigger('movePlayer', [
+    trigger('bewegeSpieler', [
       /**
       In state wird festgelegt bei welchen Werten der Triggervariable
       die Animation abgespielt werden soll. Im HTML Code wird eine boolsche
@@ -36,7 +36,7 @@ Ausserdem werden hier die Animationen erstellt.
     Die zweite Animation für den Ball funktioniert genauso,
     nur hier wird der momentane Ballhalter als Triggervariable uebergebenen.
     */
-    trigger('moveBall', [
+    trigger('bewegeBall', [
       state("0,1,2,3,4,5", style({
         left: '{{ballx}}px',
         top: '{{bally}}px',
@@ -49,11 +49,11 @@ Ausserdem werden hier die Animationen erstellt.
 export class AppComponent implements OnInit {
 
   //Die Spieler werden in Arrays aufgeteilt.
-  angriffspieler: Player[] = [];
-  abwehrspieler: Player[] = [];
+  angriffspieler: Spieler[] = [];
+  abwehrspieler: Spieler[] = [];
 
-  //ballwhere dient dazu zu wissen bei welchem Angriffspieler der Ball ist.
-  ballwhere: number;
+  //ballwo dient dazu zu wissen bei welchem Angriffspieler der Ball ist.
+  ballwo: number;
   //ballx und bally dienen um zu Wissen, wo sich der Ball auf dem Spielfeld befindet.
   ballx: number;
   bally: number;
@@ -61,36 +61,36 @@ export class AppComponent implements OnInit {
   //doLoop haelt die Schleife am Leben.
   doLoop: boolean = false;
 
-  //balldirection guckt in welche Richtung der Ball gerade gespielt wird. 0 fuer rechts und 1 fuer links
-  balldirection: number = 0;
+  //spielrichtung guckt in welche Richtung der Ball gerade gespielt wird. 0 fuer rechts und 1 fuer links
+  spielrichtung: number = 0;
 
   //dient zur Identifikation des Spielers, dessen Optionen gerade bearbeitet werden.
-  selectedSpieler: Player;
+  selectedSpieler: Spieler;
 
   //Construktor indem die Spieler, Regeln und der Ball initialisiert werden.
   ngOnInit() {
     console.log("app.component.ts");
-    this.initPlayers();
+    this.initSpielers();
     this.initAktionstabellen();
     this.changeSelectedSpielerHandler(0);
     this.ballx = this.angriffspieler[2].x;
     this.bally = this.angriffspieler[2].y;
-    this.ballwhere = 2;
+    this.ballwo = 2;
   }
 
   //Hilfsmethode um die Spieler zu Initialisieren. Kann wahrscheinlich auch in eine JSON
-  initPlayers() {
+  initSpielers() {
     //Angriffspieler JSON einlesen
     let angriff = require('../assets/json/angriffspieler.json');
     //durch alle Spieler laufen und in angriffspieler pushen
     angriff.spieler.forEach(spieler => {
-      this.angriffspieler.push(new Player(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
+      this.angriffspieler.push(new Spieler(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
     });
     //Abwehrspieler JSON einlesen
     let abwehr = require('../assets/json/abwehrspieler.json');
     //durch alle Spieler laufen und in abwehrspieler pushen
     abwehr.spieler.forEach(spieler => {
-      this.abwehrspieler.push(new Player(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
+      this.abwehrspieler.push(new Spieler(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
     });
     //selected Spieler auf den ersten Abwehrspieler setzen
   }
@@ -102,7 +102,7 @@ export class AppComponent implements OnInit {
     //durch alle Spieler laufen und Regeln einspeichern
     aktionstabellen.spieler.forEach(spieler => {
       spieler.aktionstabelle.forEach(aktion =>{
-        this.abwehrspieler[spieler.spieler_id].addAktion(aktion.ballwhere, aktion.balldirection, aktion.moveto);
+        this.abwehrspieler[spieler.spieler_id].addAktion(aktion.ballwo, aktion.spielrichtung, aktion.bewegezu);
       })
     });
   }
@@ -113,12 +113,12 @@ export class AppComponent implements OnInit {
   }
 
   //bewege einen Spieler
-  movePlayer(player: Player, x:number, y:number){
+  bewegeSpieler(Spieler: Spieler, x: number, y: number){
     //neue x und y Werte
-    player.x = x;
-    player.y = y;
+    Spieler.x = x;
+    Spieler.y = y;
     //trigger die Animation
-    player.move = !player.move;
+    Spieler.bewege = !Spieler.bewege;
   }
 
   /**
@@ -126,33 +126,33 @@ export class AppComponent implements OnInit {
   in welche Richtung er gerade gespielt wird
   und welcher Spieler ihn gerade hat.
   */
-  moveBall(){
-    if(this.ballwhere == 0){
+  bewegeBall(){
+    if(this.ballwo == 0){
       this.spielBallZu(1);
-      this.balldirection = 0;
-    } else if(this.ballwhere == 1){
-      if(this.balldirection == 1) this.spielBallZu(0);
+      this.spielrichtung = 0;
+    } else if(this.ballwo == 1){
+      if(this.spielrichtung == 1) this.spielBallZu(0);
       else this.spielBallZu(2);
-    } else if(this.ballwhere == 2){
-      if(this.balldirection == 1) this.spielBallZu(1);
+    } else if(this.ballwo == 2){
+      if(this.spielrichtung == 1) this.spielBallZu(1);
       else this.spielBallZu(3);
-    } else if(this.ballwhere == 3){
-      if(this.balldirection == 1) this.spielBallZu(2);
+    } else if(this.ballwo == 3){
+      if(this.spielrichtung == 1) this.spielBallZu(2);
       else this.spielBallZu(4);
-    } else if(this.ballwhere == 4){
+    } else if(this.ballwo == 4){
       this.spielBallZu(3);
-      this.balldirection = 1;
+      this.spielrichtung = 1;
     }
   }
 
   /**
   aendere die Position des Balls zu dem Spieler zu dem er gespielt wurde
-  und passe die ballwhere an.
+  und passe die ballwo an.
   */
-  spielBallZu(playerIndex: number){
-    this.ballx = this.angriffspieler[playerIndex].x;
-    this.bally = this.angriffspieler[playerIndex].y;
-    this.ballwhere = playerIndex;
+  spielBallZu(SpielerIndex: number){
+    this.ballx = this.angriffspieler[SpielerIndex].x;
+    this.bally = this.angriffspieler[SpielerIndex].y;
+    this.ballwo = SpielerIndex;
   }
 
   //starte die Schleife und aeussere Schleife
@@ -169,22 +169,53 @@ export class AppComponent implements OnInit {
     gib dem Spieler 50 Millisekunden mehr Zeit als die Animation braucht.
     */
     setTimeout(() => {
-      this.moveBall();
-      this.checkForPlayermovement();
+      this.bewegeBall();
+      this.checkForSpielerbewegement();
       if (this.doLoop == true) this.loop();
     }, 750);
   }
 
-  //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
-  checkForPlayermovement(){
-    for(let player of this.abwehrspieler){
+  getBewegezu(aktionstabelle: any[], hinweise: any{}){
+    for(let aktion of aktionstabelle){
+      if(aktion.ballwo == hinweise.ballwo
+        && aktion.spielrichtung == hinweise.spielrichtung){
+          return aktion.bewegezu;
+      }
+    }
+    return -1
+  }
 
+  //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
+  checkForSpielerbewegement(){
+    let bewegezu: number = -1;
+    for(let spieler of this.abwehrspieler){
+      if(spieler.relevanzen.ballwo == true){
+        console.log("ballwo relevant")
+        if(spieler.relevanzen.spielrichtung == true){
+          console.log("und spielrichtung relevant")
+          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: this.spielrichtung})
+        }
+        else{
+          console.log(spieler.name + " Aktion fuer Spieler")
+          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: -1})
+        }
+      }
+      else{
+        if(spieler.relevanzen.spielrichtung == true){
+          console.log("spielrichtung relevant")
+          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: this.spielrichtung})
+        }
+        else{
+          console.log(spieler.name + " Aktion DEFAULT")
+          bewegezu = getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: -1})
+        }
+      }
     }
   }
 }
 
 //Klasse fuer Spieler
-class Player {
+class Spieler {
   //startX und startY fuer das zurueckziehen an die Anfangsposition
   startX: number;
   startY: number;
@@ -196,19 +227,25 @@ class Player {
   name: string;
 
   //Boolen Variable die bei jedem umaendern die Animation triggert.
-  move: boolean = false;
+  bewege: boolean = false;
 
   /**
   Die Aktionstabelle fuer diesen Spieler.
-  Aktionen bestehen aus den beiden Bedingungen ballwhere und balldirection
-  und der eigentlichen Aktion mit moveto.
-  Dabei sind ballwhere und moveto die id fuer den Angriffspieler zu dem sich hinbewegt werden soll.
-  Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwhere = -1 und balldirection = -1.
+  Aktionen bestehen aus den beiden Bedingungen ballwo und spielrichtung
+  und der eigentlichen Aktion mit bewegezu.
+  Dabei sind ballwo und bewegezu die id fuer den Angriffspieler zu dem sich hinbewegt werden soll.
+  Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwo = -1 und spielrichtung = -1.
   */
   aktionstabelle: any[] = [];
 
+  //hier werden die Relevanzen fuer den Entscheidungsbaum gespeichert
+  relevanzen: any = {
+    ballwo: false,
+    spielrichtung: false
+  }
+
   //Konstruktor indem die Startposition und Name festgelegt wird
-  constructor(x:number, y:number, name: string){
+  constructor(x: number, y: number, name: string){
     this.startX = x;
     this.startY = y;
     this.x = x;
@@ -218,25 +255,43 @@ class Player {
   }
 
   //Methode zum hinzufuegen einer Regel.
-  addAktion(ballPlayerIndex: number, balldirection: number, movePlayerIndex: number){
+  addAktion(ballSpielerIndex: number, spielrichtung: number, bewegeSpielerIndex: number){
     this.aktionstabelle.push({
-      ballwhere: ballPlayerIndex,
-      balldirection: balldirection,
-      moveto: movePlayerIndex});
+      ballwo: ballSpielerIndex,
+      spielrichtung: spielrichtung,
+      bewegezu: bewegeSpielerIndex});
+      this.checkRelevanzen();
   }
 
   //Methode zum aendern des Spielers der den Ball hat in einer Regel.
-  changeBallPlayerInRule(ruleAndBallPlayerIndex: any){
-    //this.entscheidungsbaum[ruleAndBallPlayerIndex[0]].ballPlayerIndex = ruleAndBallPlayerIndex[2];
+  changeBallSpielerInRule(ruleAndBallSpielerIndex: any){
+    //this.entscheidungsbaum[ruleAndBallSpielerIndex[0]].ballSpielerIndex = ruleAndBallSpielerIndex[2];
   }
 
   //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
-  changeMovePlayerInRule(ruleAndMovePlayerIndex: any){
-    /**if(ruleAndMovePlayerIndex[2] != "-"){
-      this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].movePlayerIndex = ruleAndMovePlayerIndex[2];
-      this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].backToStart = false;
+  changebewegeSpielerInRule(ruleAndbewegeSpielerIndex: any){
+    /**if(ruleAndbewegeSpielerIndex[2] != "-"){
+      this.entscheidungsbaum[ruleAndbewegeSpielerIndex[0]].bewegeSpielerIndex = ruleAndbewegeSpielerIndex[2];
+      this.entscheidungsbaum[ruleAndbewegeSpielerIndex[0]].backToStart = false;
     } else {
-      this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].backToStart = true;
+      this.entscheidungsbaum[ruleAndbewegeSpielerIndex[0]].backToStart = true;
     }*/
+  }
+
+  checkRelevanzen(){
+    let ballwo: boolean = false;
+    let spielrichtung: boolean = false;
+    for(let aktion of aktionstabelle){
+      if(aktion.ballwo > -1){
+        ballwo = true;
+      }
+      if(aktion.spielrichtung > -1){
+        spielrichtung = true;
+      }
+    }
+    this.relevanzen = {
+      ballwo: ballwo,
+      spielrichtung: spielrichtung
+    }
   }
 }

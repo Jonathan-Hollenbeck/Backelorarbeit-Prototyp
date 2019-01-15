@@ -4,14 +4,14 @@
       "spieler_id": 0,
       "aktionstabelle": [
         {
-          "ballwhere": -1,
-          "balldirection": -1,
-          "moveto": -1
+          "ballwo": -1,
+          "spielrichtung": -1,
+          "bewegezu": -1
         },
         {
-          "ballwhere": 0,
-          "balldirection": -1,
-          "moveto": 0
+          "ballwo": 0,
+          "spielrichtung": -1,
+          "bewegezu": 0
         }
       ]
     },
@@ -19,14 +19,14 @@
       "spieler_id": 1,
       "aktionstabelle": [
         {
-          "ballwhere": -1,
-          "balldirection":-1,
-          "moveto": -1
+          "ballwo": -1,
+          "spielrichtung":-1,
+          "bewegezu": -1
         },
         {
-          "ballwhere": 1,
-          "balldirection": -1,
-          "moveto": 1
+          "ballwo": 1,
+          "spielrichtung": -1,
+          "bewegezu": 1
         }
       ]
     },
@@ -34,14 +34,14 @@
       "spieler_id": 2,
       "aktionstabelle": [
         {
-          "ballwhere": -1,
-          "balldirection": -1,
-          "moveto": -1
+          "ballwo": -1,
+          "spielrichtung": -1,
+          "bewegezu": -1
         },
         {
-          "ballwhere": 2,
-          "balldirection": -1,
-          "moveto": 2
+          "ballwo": 2,
+          "spielrichtung": -1,
+          "bewegezu": 2
         }
       ]
     },
@@ -49,9 +49,9 @@
       "spieler_id": 3,
       "aktionstabelle": [
         {
-          "ballwhere": -1,
-          "balldirection": -1,
-          "moveto": -1
+          "ballwo": -1,
+          "spielrichtung": -1,
+          "bewegezu": -1
         }
       ]
     },
@@ -59,14 +59,14 @@
       "spieler_id": 4,
       "aktionstabelle": [
         {
-          "ballwhere": -1,
-          "balldirection": -1,
-          "moveto": -1
+          "ballwo": -1,
+          "spielrichtung": -1,
+          "bewegezu": -1
         },
         {
-          "ballwhere": 3,
-          "balldirection": -1,
-          "moveto": 3
+          "ballwo": 3,
+          "spielrichtung": -1,
+          "bewegezu": 3
         }
       ]
     },
@@ -74,14 +74,14 @@
       "spieler_id": 5,
       "aktionstabelle": [
         {
-          "ballwhere": -1,
-          "balldirection": -1,
-          "moveto": -1
+          "ballwo": -1,
+          "spielrichtung": -1,
+          "bewegezu": -1
         },
         {
-          "ballwhere": 4,
-          "balldirection": -1,
-          "moveto": 4
+          "ballwo": 4,
+          "spielrichtung": -1,
+          "bewegezu": 4
         }
       ]
     }
