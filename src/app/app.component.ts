@@ -61,8 +61,8 @@ export class AppComponent implements OnInit {
   //doLoop haelt die Schleife am Leben.
   doLoop: boolean = false;
 
-  //balldirectionright guckt in welche Richtung der Ball gerade gespielt wird.
-  balldirectionright: boolean = false;
+  //balldirection guckt in welche Richtung der Ball gerade gespielt wird. 0 fuer rechts und 1 fuer links
+  balldirection: number = 0;
 
   //dient zur Identifikation des Spielers, dessen Optionen gerade bearbeitet werden.
   selectedSpieler: Player;
@@ -99,12 +99,13 @@ export class AppComponent implements OnInit {
   initRules() {
     //JSON einlesen
     let rules = require('../assets/json/6_0_abwehr.json');
+    console.log("initRules no Code");
     //durch alle Spieler laufen und Regeln einspeichern
-    rules.spieler.forEach(spieler => {
+    /**rules.spieler.forEach(spieler => {
       spieler.entscheidungsbaum.forEach(rule =>{
         this.abwehrspieler[spieler.spieler_id].addRule(rule.ballwhere, rule.moveto);
       })
-    });
+    });*/
   }
 
   //Den aktuell bearbeitbaren Spieler wechseln
@@ -129,7 +130,7 @@ export class AppComponent implements OnInit {
   moveBall(){
     if(this.ballwhere == 0){
       this.spielBallZu(1);
-      this.balldirectionright = true;
+      this.balldirectionright = 0;
     } else if(this.ballwhere == 1){
       if(this.balldirectionright == false) this.spielBallZu(0);
       else this.spielBallZu(2);
@@ -141,7 +142,7 @@ export class AppComponent implements OnInit {
       else this.spielBallZu(4);
     } else if(this.ballwhere == 4){
       this.spielBallZu(3);
-      this.balldirectionright = false;
+      this.balldirectionright = 1;
     }
   }
 
@@ -178,15 +179,7 @@ export class AppComponent implements OnInit {
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
   checkForPlayermovement(){
     for(let player of this.abwehrspieler){
-      for(let rule of player.entscheidungsbaum){
-        if(rule.ballPlayerIndex == this.ballwhere){
-          if(rule.backToStart == true){
-            this.movePlayer(player, player.startX, player.startY);
-          } else {
-            this.movePlayer(player, this.angriffspieler[rule.movePlayerIndex].x, this.angriffspieler[rule.movePlayerIndex].y);
-          }
-        }
-      }
+
     }
   }
 }
@@ -206,8 +199,14 @@ class Player {
   //Boolen Variable die bei jedem umaendern die Animation triggert.
   move: boolean = false;
 
-  //Der Entscheidungsbaum fuer diesen Spieler.
-  entscheidungsbaum: Rule[] = [];
+  /**
+  Die Aktionstabelle fuer diesen Spieler.
+  Aktionen bestehen aus den beiden Bedingungen ballwhere und balldirection
+  und der eigentlichen Aktion mit moveto.
+  Dabei sind ballwhere und moveto die id fuer den Angriffspieler zu dem sich hinbewegt werden soll.
+  Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwhere = -1 und balldirection = -1.
+  */
+  Aktionstabelle: Rule[] = [];
 
   //Konstruktor indem die Startposition und Name festgelegt wird
   constructor(x:number, y:number, name: string){
@@ -221,41 +220,21 @@ class Player {
 
   //Methode zum hinzufuegen einer Regel.
   addRule(ballPlayerIndex: number, movePlayerIndex: number){
-    this.entscheidungsbaum.push(new Rule(ballPlayerIndex, movePlayerIndex));
+    //this.entscheidungsbaum.push(new Rule(ballPlayerIndex, movePlayerIndex));
   }
 
   //Methode zum aendern des Spielers der den Ball hat in einer Regel.
   changeBallPlayerInRule(ruleAndBallPlayerIndex: any){
-    this.entscheidungsbaum[ruleAndBallPlayerIndex[0]].ballPlayerIndex = ruleAndBallPlayerIndex[2];
+    //this.entscheidungsbaum[ruleAndBallPlayerIndex[0]].ballPlayerIndex = ruleAndBallPlayerIndex[2];
   }
 
   //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
   changeMovePlayerInRule(ruleAndMovePlayerIndex: any){
-    if(ruleAndMovePlayerIndex[2] != "-"){
+    /**if(ruleAndMovePlayerIndex[2] != "-"){
       this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].movePlayerIndex = ruleAndMovePlayerIndex[2];
       this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].backToStart = false;
     } else {
       this.entscheidungsbaum[ruleAndMovePlayerIndex[0]].backToStart = true;
-    }
-  }
-}
-
-//Klasse fuer Regeln
-class Rule {
-  //Spieler der den Ball hat zum triggern.
-  ballPlayerIndex: number;
-  //Spieler zu dem sich hinbewegt werden soll.
-  movePlayerIndex: number;
-
-  //Wenn true bewegt sich der Spieler zu seiner Startposition zurueck.
-  backToStart: boolean = false;
-
-  //Konstruktor zum setzten der oben genannten Variablen
-  constructor(ballPlayerIndex: number, movePlayerIndex: number){
-    this.ballPlayerIndex = ballPlayerIndex;
-    this.movePlayerIndex = movePlayerIndex;
-    if(movePlayerIndex == -1){
-      this.backToStart = true;
-    }
+    }*/
   }
 }

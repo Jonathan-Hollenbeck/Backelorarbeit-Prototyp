@@ -1,155 +1,86 @@
 {
   "spieler": [
-    { 
+    {
       "spieler_id": 0,
-      "entscheidungsbaum": [
+      "aktionstabelle": [
+        {
+          "ballwhere": -1,
+          "balldirection": -1,
+          "moveto": -1
+        },
         {
           "ballwhere": 0,
+          "balldirection": -1,
           "moveto": 0
         },
-        {
-          "ballwhere": 1,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 2,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 3,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 4,
-          "moveto": -1
-        }
       ]
     },
     {
       "spieler_id": 1,
-      "entscheidungsbaum": [
+      "aktionstabelle": [
         {
-          "ballwhere": 0,
+          "ballwhere": -1,
+          "balldirection":-1,
           "moveto": -1
         },
         {
           "ballwhere": 1,
+          "balldirection": -1,
           "moveto": 1
-        },
-        {
-          "ballwhere": 2,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 3,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 4,
-          "moveto": -1
         }
       ]
     },
     {
       "spieler_id": 2,
-      "entscheidungsbaum": [
+      "aktionstabelle": [
         {
-          "ballwhere": 0,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 1,
+          "ballwhere": -1,
+          "balldirection": -1,
           "moveto": -1
         },
         {
           "ballwhere": 2,
+          "balldirection": -1,
           "moveto": 2
-        },
-        {
-          "ballwhere": 3,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 4,
-          "moveto": -1
         }
       ]
     },
     {
       "spieler_id": 3,
-      "entscheidungsbaum": [
+      "aktionstabelle": [
         {
-          "ballwhere": 0,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 1,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 2,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 3,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 4,
+          "ballwhere": -1,
+          "balldirection": -1,
           "moveto": -1
         }
       ]
     },
     {
       "spieler_id": 4,
-      "entscheidungsbaum": [
+      "aktionstabelle": [
         {
-          "ballwhere": 0,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 1,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 2,
+          "ballwhere": -1,
+          "balldirection": -1,
           "moveto": -1
         },
         {
           "ballwhere": 3,
+          "balldirection": -1,
           "moveto": 3
-        },
-        {
-          "ballwhere": 4,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 5,
-          "moveto": -1
         }
       ]
     },
     {
       "spieler_id": 5,
-      "entscheidungsbaum": [
+      "aktionstabelle": [
         {
-          "ballwhere": 0,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 1,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 2,
-          "moveto": -1
-        },
-        {
-          "ballwhere": 3,
+          "ballwhere": -1,
+          "balldirection": -1,
           "moveto": -1
         },
         {
           "ballwhere": 4,
+          "balldirection": -1,
           "moveto": 4
         }
       ]
