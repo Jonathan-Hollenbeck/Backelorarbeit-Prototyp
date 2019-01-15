@@ -71,7 +71,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     console.log("app.component.ts");
     this.initPlayers();
-    this.initRules();
+    this.initAktionstabellen();
+    this.changeSelectedSpielerHandler(0);
     this.ballx = this.angriffspieler[2].x;
     this.bally = this.angriffspieler[2].y;
     this.ballwhere = 2;
@@ -92,24 +93,22 @@ export class AppComponent implements OnInit {
       this.abwehrspieler.push(new Player(spieler.spieler_x, spieler.spieler_y, spieler.spieler_name));
     });
     //selected Spieler auf den ersten Abwehrspieler setzen
-    this.changeSelectedPlayerHandler(0);
   }
 
   //Initialisiere Regeln fuer Spieler aus einer JSON Datei
-  initRules() {
+  initAktionstabellen() {
     //JSON einlesen
-    let rules = require('../assets/json/6_0_abwehr.json');
-    console.log("initRules no Code");
+    let aktionstabellen = require('../assets/json/6_0_abwehr.json');
     //durch alle Spieler laufen und Regeln einspeichern
-    /**rules.spieler.forEach(spieler => {
-      spieler.entscheidungsbaum.forEach(rule =>{
-        this.abwehrspieler[spieler.spieler_id].addRule(rule.ballwhere, rule.moveto);
+    aktionstabellen.spieler.forEach(spieler => {
+      spieler.aktionstabelle.forEach(aktion =>{
+        this.abwehrspieler[spieler.spieler_id].addAktion(aktion.ballwhere, aktion.balldirection, aktion.moveto);
       })
-    });*/
+    });
   }
 
   //Den aktuell bearbeitbaren Spieler wechseln
-  changeSelectedPlayerHandler(abwehrspielerIndex: number) {
+  changeSelectedSpielerHandler(abwehrspielerIndex: number) {
     this.selectedSpieler = this.abwehrspieler[abwehrspielerIndex];
   }
 
@@ -130,19 +129,19 @@ export class AppComponent implements OnInit {
   moveBall(){
     if(this.ballwhere == 0){
       this.spielBallZu(1);
-      this.balldirectionright = 0;
+      this.balldirection = 0;
     } else if(this.ballwhere == 1){
-      if(this.balldirectionright == false) this.spielBallZu(0);
+      if(this.balldirection == 1) this.spielBallZu(0);
       else this.spielBallZu(2);
     } else if(this.ballwhere == 2){
-      if(this.balldirectionright == false) this.spielBallZu(1);
+      if(this.balldirection == 1) this.spielBallZu(1);
       else this.spielBallZu(3);
     } else if(this.ballwhere == 3){
-      if(this.balldirectionright == false) this.spielBallZu(2);
+      if(this.balldirection == 1) this.spielBallZu(2);
       else this.spielBallZu(4);
     } else if(this.ballwhere == 4){
       this.spielBallZu(3);
-      this.balldirectionright = 1;
+      this.balldirection = 1;
     }
   }
 
@@ -206,7 +205,7 @@ class Player {
   Dabei sind ballwhere und moveto die id fuer den Angriffspieler zu dem sich hinbewegt werden soll.
   Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwhere = -1 und balldirection = -1.
   */
-  Aktionstabelle: Rule[] = [];
+  aktionstabelle: any[] = [];
 
   //Konstruktor indem die Startposition und Name festgelegt wird
   constructor(x:number, y:number, name: string){
@@ -219,8 +218,11 @@ class Player {
   }
 
   //Methode zum hinzufuegen einer Regel.
-  addRule(ballPlayerIndex: number, movePlayerIndex: number){
-    //this.entscheidungsbaum.push(new Rule(ballPlayerIndex, movePlayerIndex));
+  addAktion(ballPlayerIndex: number, balldirection: number, movePlayerIndex: number){
+    this.aktionstabelle.push({
+      ballwhere: ballPlayerIndex,
+      balldirection: balldirection,
+      moveto: movePlayerIndex});
   }
 
   //Methode zum aendern des Spielers der den Ball hat in einer Regel.
