@@ -41,5 +41,20 @@
   text-align: center;
 }
 
-.optionen {
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th {
+  padding: 10px;
+  background-color: grey;
+  color: white;
+}
+
+.thick-left-border {
+  border-left: 3px solid black;;
 }

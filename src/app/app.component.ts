@@ -175,7 +175,7 @@ export class AppComponent implements OnInit {
     }, 750);
   }
 
-  getBewegezu(aktionstabelle: any[], hinweise: any{}){
+  getBewegezu(aktionstabelle: any[], hinweise: any){
     for(let aktion of aktionstabelle){
       if(aktion.ballwo == hinweise.ballwo
         && aktion.spielrichtung == hinweise.spielrichtung){
