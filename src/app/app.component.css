@@ -55,6 +55,11 @@ th {
   color: white;
 }
 
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
 .thick-left-border {
   border-left: 3px solid black;;
 }

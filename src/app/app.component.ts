@@ -187,9 +187,44 @@ export class AppComponent implements OnInit {
 
   //Aenderungen an der Bearbeitung der Aktionstabelle von selected Spieler bestaetigen.
   bestaetigeAenderungen(){
-    for(let aktion of this.selectedSpieler.aktionstabelle){
-      
+    //Werte aus den Dropdown Menues lesen.
+    let ballwoselect: any = document.getElementsByName('ballwoselect');
+    let spielrichtungselect: any = document.getElementsByName('spielrichtungselect');
+    let bewegezuselect: any = document.getElementsByName('bewegezuselect');
+
+    //neue Aktionstabelle
+    let aktionstabelle: any = [];
+
+    //Werte aus den Aktionen uebertragen in die Aktionstabelle.
+    for(let index:number = 0; index < ballwoselect.length; index++){
+      aktionstabelle.push({
+        ballwo: ballwoselect[index].value,
+        spielrichtung: spielrichtungselect[index].value,
+        bewegezu: bewegezuselect[index].value})
     }
+
+    //loesche dopplungen
+    aktionstabelle = aktionstabelle.filter((aktion, index, self)=>
+    self.findIndex(a =>
+       a.ballwo === aktion.ballwo
+       && a.spielrichtung === aktion.spielrichtung
+       && a.bewegezu === aktion.bewegezu
+     ) === index)
+
+     //Aktionstabelle dem selectedSpieler geben
+     this.selectedSpieler.aktionstabelle = aktionstabelle;
+
+     //Entscheidungsbaum erstellen
+     //erstelle komplette aktionstabelle ohne egal Werte
+     //alle werte auffuellen
+     let kompletteAktionstabelle: any = [];
+     for(let ballwo: number = 0; ballwo < this.angriffspieler.length; ballwo++){
+       for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
+         kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
+       }
+     }
+     console.log(kompletteAktionstabelle);
+     //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
   }
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
@@ -278,12 +313,19 @@ class Spieler {
       spielrichtung: spielrichtung,
       bewegezu: bewegezuIndex});
     this.checkRelevanzen();
+  }
 
+  //Methode zum hinzufuegen einer leeren Regel.
+  addAktionLeer(){
+    this.aktionstabelle.push({
+      ballwo: -1,
+      spielrichtung: -1,
+      bewegezu: -1});
+  }
 
-    let s: any = document.getElementsByName('ballwoselect');
-    console.log(s)
-
-
+  //Aktion loeschen
+  removeAktion(aktion: any){
+    this.aktionstabelle.splice(this.aktionstabelle.indexOf(aktion), 1);
   }
 
   setAktuelleAktion(aktion: any){

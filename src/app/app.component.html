@@ -58,6 +58,7 @@
       <th>Spieler mit Ball</th>
       <th>Ballrichtung</th>
       <th class = "thick-left-border">Bewege zu</th>
+      <th class = "thick-left-border">Loeschen</th>
     </tr>
     <!-- Auflistung aller Aktionen fuer den ausgewaehlten Spieler -->
     <tr *ngFor="let aktion of selectedSpieler.aktionstabelle">
@@ -91,11 +92,15 @@
           <option [value]="-1">zurueck</option>
         </select>
       </td>
+      <td class = "thick-left-border">
+        <button (click)="selectedSpieler.removeAktion(aktion)">-</button>
+      </td>
     </tr>
   </table>
 
   <!-- Button zum bestaetigen der Aenderungen -->
-  <p><button (click)="startstopLoop()">Aenderungen bestaetigen</button></p>
+  <button (click)="selectedSpieler.addAktionLeer()">Aktion hinzufuegen</button>
+  <p><button (click)="bestaetigeAenderungen()">Aenderungen bestaetigen</button></p>
 </div>
 
 <router-outlet></router-outlet>
