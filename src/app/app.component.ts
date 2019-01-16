@@ -262,26 +262,36 @@ class Spieler {
   }
 
   //Methode zum hinzufuegen einer Regel.
-  addAktion(ballSpielerIndex: number, spielrichtung: number, bewegeSpielerIndex: number){
+  addAktion(ballwoIndex: number, spielrichtung: number, bewegezuIndex: number){
     this.aktionstabelle.push({
-      ballwo: ballSpielerIndex,
+      ballwo: ballwoIndex,
       spielrichtung: spielrichtung,
-      bewegezu: bewegeSpielerIndex});
+      bewegezu: bewegezuIndex});
     this.checkRelevanzen();
   }
 
   //Methode zum aendern des Spielers der den Ball hat in einer Regel.
-  changeBallSpielerInAktion(aktionAndBallSpielerIndex: any){
-    //this.entscheidungsbaum[aktionAndBallSpielerIndex[0]].ballSpielerIndex = aktionAndBallSpielerIndex[2];
+  changeBallwoInAktion(aktionUndBallSpielerIndex: any){
+    //this.entscheidungsbaum[aktionUndBallSpielerIndex[0]].ballwoIndex = aktionUndBallSpielerIndex[2];
   }
 
   //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
-  changebewegeSpielerInAktion(aktionAndbewegeSpielerIndex: any){
-    /**if(aktionAndbewegeSpielerIndex[2] != "-"){
-      this.entscheidungsbaum[aktionAndbewegeSpielerIndex[0]].bewegeSpielerIndex = aktionAndbewegeSpielerIndex[2];
-      this.entscheidungsbaum[aktionAndbewegeSpielerIndex[0]].backToStart = false;
+  changeBallrichtungInAktion(aktionUndBewegeSpielerIndex: any){
+    /**if(aktionUndBewegeSpielerIndex[2] != "-"){
+      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].bewegezuIndex = aktionUndBewegeSpielerIndex[2];
+      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = false;
     } else {
-      this.entscheidungsbaum[aktionAndbewegeSpielerIndex[0]].backToStart = true;
+      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = true;
+    }*/
+  }
+
+  //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
+  changeBewegezuInAktion(aktionUndBewegeSpielerIndex: any){
+    /**if(aktionUndBewegeSpielerIndex[2] != "-"){
+      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].bewegezuIndex = aktionUndBewegeSpielerIndex[2];
+      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = false;
+    } else {
+      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = true;
     }*/
   }
 

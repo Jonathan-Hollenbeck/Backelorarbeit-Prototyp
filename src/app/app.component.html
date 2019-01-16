@@ -52,7 +52,7 @@
   <!-- Auflistung aller Aktionen fuer den ausgewaehlten Spieler -->
   <p *ngFor="let aktion of selectedSpieler.aktionstabelle">
     <!-- Spieler mit dem Ball -->
-    Spieler mit ball:
+    Spieler mit Ball:
     <ng-container *ngIf="aktion.ballwo > -1; then thenTemplateballwo; else elseTemplateballwo"></ng-container>
     <ng-template #thenTemplateballwo>
       {{angriffspieler[aktion.ballwo].name}}
@@ -60,15 +60,15 @@
     <ng-template #elseTemplateballwo>
       egal
     </ng-template>
-    <select (change)="selectedSpieler.changeBallSpielerInAktion($event.target.value)">
-      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), angriffspieler.indexOf(ballSpielerOption)]"
-      *ngFor="let ballSpielerOption of angriffspieler">
-        {{ballSpielerOption.name}}
+    <select (change)="selectedSpieler.changeBallwoInAktion($event.target.value)">
+      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), angriffspieler.indexOf(ballwoOption)]"
+      *ngFor="let ballwoOption of angriffspieler">
+        {{ballwoOption.name}}
       </option>
       <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), -1]">egal</option>
     </select>
 
-    <!-- Spieler mit dem Ball -->
+    <!-- Ballrichtung -->
     <br>Ballrichtung:
     <ng-container *ngIf="aktion.spielrichtung > -1; then thenTemplatespielrichtung; else elseTemplatespielrichtung"></ng-container>
     <ng-template #thenTemplatespielrichtung>
@@ -83,14 +83,14 @@
     <ng-template #elseTemplatespielrichtung>
       egal
     </ng-template>
-    <select (change)="selectedSpieler.changeBallSpielerInAktion($event.target.value)">
-      <option [value]="[1]">Links</option>
-      <option [value]="[0]">Rechts</option>
-      <option [value]="[-1]">egal</option>
+    <select (change)="selectedSpieler.changeBallrichtungInAktion($event.target.value)">
+      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), 1]">Links</option>
+      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), 0]">Rechts</option>
+      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), -1]">egal</option>
     </select>
 
-    <!-- In welche Richtung wird der Ball gespielt -->
-    <br>Aktion:
+    <!-- zu Welchem Spieler soll sich bewegt werden? -->
+    <br>Bewege zu:
     <ng-container *ngIf="aktion.bewegezu > -1; then thenTemplatebewegezu; else elseTemplatebewegezu"></ng-container>
     <ng-template #thenTemplatebewegezu>
       {{angriffspieler[aktion.bewegezu].name}}
@@ -98,10 +98,10 @@
     <ng-template #elseTemplatebewegezu>
       Auf Start
     </ng-template>
-    <select (change)="selectedSpieler.changebewegeSpielerInAktion($event.target.value)">
-      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), angriffspieler.indexOf(bewegeSpielerOption)]"
-      *ngFor="let bewegeSpielerOption of angriffspieler">
-        {{bewegeSpielerOption.name}}
+    <select (change)="selectedSpieler.changeBewegezuInAktion($event.target.value)">
+      <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), angriffspieler.indexOf(bewegezuOption)]"
+      *ngFor="let bewegezuOption of angriffspieler">
+        {{bewegezuOption.name}}
       </option>
       <option [value]="[selectedSpieler.aktionstabelle.indexOf(aktion), -1]">Auf Start</option>
     </select>
