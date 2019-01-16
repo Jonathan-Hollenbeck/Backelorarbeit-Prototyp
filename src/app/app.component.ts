@@ -185,6 +185,13 @@ export class AppComponent implements OnInit {
     return -1
   }
 
+  //Aenderungen an der Bearbeitung der Aktionstabelle von selected Spieler bestaetigen.
+  bestaetigeAenderungen(){
+    for(let aktion of this.selectedSpieler.aktionstabelle){
+      
+    }
+  }
+
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
   checkForSpielerbewegement(){
     let bewegezu: number = -1;
@@ -236,6 +243,9 @@ class Spieler {
   //Boolen Variable die bei jedem umaendern die Animation triggert.
   bewege: boolean = false;
 
+  //aktuelle zu bearbeitende Aktion
+  aktuelleAktion: number: 0;
+
   /**
   Die Aktionstabelle fuer diesen Spieler.
   Aktionen bestehen aus den beiden Bedingungen ballwo und spielrichtung
@@ -268,6 +278,17 @@ class Spieler {
       spielrichtung: spielrichtung,
       bewegezu: bewegezuIndex});
     this.checkRelevanzen();
+
+
+    let s: any = document.getElementsByName('ballwoselect');
+    console.log(s)
+
+
+  }
+
+  setAktuelleAktion(aktion: any){
+    this.aktuelleAktion = this.aktionstabelle.indexOf(aktionsIndex);
+    console.log("aktuelle Aktion: " + this.aktuelleAktion);
   }
 
   //Methode zum aendern des Spielers der den Ball hat in einer Regel.
