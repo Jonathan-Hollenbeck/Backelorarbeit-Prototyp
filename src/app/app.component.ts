@@ -203,28 +203,72 @@ export class AppComponent implements OnInit {
         bewegezu: bewegezuselect[index].value})
     }
 
-    //loesche dopplungen
-    aktionstabelle = aktionstabelle.filter((aktion, index, self)=>
-    self.findIndex(a =>
-       a.ballwo === aktion.ballwo
-       && a.spielrichtung === aktion.spielrichtung
-       && a.bewegezu === aktion.bewegezu
-     ) === index)
+    //loesche dopplungen und redundante Aktionen
+    aktionstabelle = aktionstabelle.filter(function(aktion, index, self){
+      return index === self.findIndex(function(a){
+        return a.ballwo === aktion.ballwo
+          && a.spielrichtung === aktion.spielrichtung
+      });
+    });
 
-     //Aktionstabelle dem selectedSpieler geben
-     this.selectedSpieler.aktionstabelle = aktionstabelle;
-
-     //Entscheidungsbaum erstellen
-     //erstelle komplette aktionstabelle ohne egal Werte
-     //alle werte auffuellen
-     let kompletteAktionstabelle: any = [];
-     for(let ballwo: number = 0; ballwo < this.angriffspieler.length; ballwo++){
-       for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
-         kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
-       }
+    //Aktionstabelle dem selectedSpieler geben
+    this.selectedSpieler.aktionstabelle = Object.assign([], aktionstabelle);
+    //Entscheidungsbaum erstellen
+    //erstelle komplette aktionstabelle ohne egal Werte
+    //alle werte auffuellen
+    let kompletteAktionstabelle: any = [];
+    for(let ballwo: number = 0; ballwo < this.angriffspieler.length; ballwo++){
+     for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
+       kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
      }
-     console.log(kompletteAktionstabelle);
-     //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
+    }
+    //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
+    //aendere fuer alles egal
+    let allesegal = aktionstabelle.find(aktion => aktion.ballwo == -1 && aktion.spielrichtung == -1);
+    //loeschen der allesegal Aktion
+    aktionstabelle.splice(aktionstabelle.indexOf(allesegal), 1);
+    for(let aktion of kompletteAktionstabelle){
+      aktion.bewegezu = allesegal.bewegezu;
+    }
+    //aendere fuer spielrichtung egal
+    let ballwoegal = aktionstabelle.filter(aktion => aktion.ballwo == -1)
+    //loeschen der spielrichtungegal Aktionen
+    for(let ballwoe of ballwoegal){
+      aktionstabelle.splice(aktionstabelle.indexOf(ballwoe), 1);
+    }
+    for(let aktion1 of kompletteAktionstabelle){
+      for(let aktion2 of ballwoegal){
+        if(aktion1.spielrichtung == aktion2.spielrichtung){
+          console.log("found match ballwo egal");
+          aktion1.bewegezu = aktion2.bewegezu;
+        }
+      }
+    }
+    //aendere fuer ballwo egal
+    let spielrichtungegal = aktionstabelle.filter(aktion => aktion.spielrichtung == -1)
+    //loeschen der ballwoegal Aktionen
+    for(let spielrichtunge of spielrichtungegal){
+      aktionstabelle.splice(aktionstabelle.indexOf(spielrichtunge), 1);
+    }
+    for(let aktion1 of kompletteAktionstabelle){
+      for(let aktion2 of spielrichtungegal){
+        if(aktion1.ballwo == aktion2.ballwo){
+          console.log("found match spielrichtung egal");
+          aktion1.bewegezu = aktion2.bewegezu;
+        }
+      }
+    }
+    //aendere fuer nicht egal
+    for(let aktion1 of kompletteAktionstabelle){
+      for(let aktion2 of aktionstabelle){
+        if(aktion1.ballwo == aktion2.ballwo
+          && aktion1.spielrichtung == aktion2.spielrichtung){
+          console.log("found match nicht egal");
+          aktion1.bewegezu = aktion2.bewegezu;
+        }
+      }
+    }
+    
   }
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
@@ -279,7 +323,7 @@ class Spieler {
   bewege: boolean = false;
 
   //aktuelle zu bearbeitende Aktion
-  aktuelleAktion: number: 0;
+  aktuelleAktion: number = 0;
 
   /**
   Die Aktionstabelle fuer diesen Spieler.
@@ -329,7 +373,7 @@ class Spieler {
   }
 
   setAktuelleAktion(aktion: any){
-    this.aktuelleAktion = this.aktionstabelle.indexOf(aktionsIndex);
+    this.aktuelleAktion = this.aktionstabelle.indexOf(aktion);
     console.log("aktuelle Aktion: " + this.aktuelleAktion);
   }
 
