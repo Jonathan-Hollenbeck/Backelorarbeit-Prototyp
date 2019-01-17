@@ -222,53 +222,55 @@ export class AppComponent implements OnInit {
        kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
      }
     }
-    //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
-    //aendere fuer alles egal
-    let allesegal = aktionstabelle.find(aktion => aktion.ballwo == -1 && aktion.spielrichtung == -1);
-    //loeschen der allesegal Aktion
-    aktionstabelle.splice(aktionstabelle.indexOf(allesegal), 1);
-    for(let aktion of kompletteAktionstabelle){
-      aktion.bewegezu = allesegal.bewegezu;
-    }
-    //aendere fuer spielrichtung egal
-    let ballwoegal = aktionstabelle.filter(aktion => aktion.ballwo == -1)
-    //loeschen der spielrichtungegal Aktionen
-    for(let ballwoe of ballwoegal){
-      aktionstabelle.splice(aktionstabelle.indexOf(ballwoe), 1);
-    }
-    for(let aktion1 of kompletteAktionstabelle){
-      for(let aktion2 of ballwoegal){
-        if(aktion1.spielrichtung == aktion2.spielrichtung){
-          console.log("found match ballwo egal");
-          aktion1.bewegezu = aktion2.bewegezu;
+    if(aktionstabelle.length > 0){
+      //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
+      //aendere fuer alles egal
+      let allesegal = aktionstabelle.find(aktion => aktion.ballwo == -1 && aktion.spielrichtung == -1);
+      //loeschen der allesegal Aktion
+      aktionstabelle.splice(aktionstabelle.indexOf(allesegal), 1);
+      for(let aktion of kompletteAktionstabelle){
+        aktion.bewegezu = allesegal.bewegezu;
+      }
+      //aendere fuer spielrichtung egal
+      let ballwoegal = aktionstabelle.filter(aktion => aktion.ballwo == -1)
+      //loeschen der spielrichtungegal Aktionen
+      for(let ballwoe of ballwoegal){
+        aktionstabelle.splice(aktionstabelle.indexOf(ballwoe), 1);
+      }
+      for(let aktion1 of kompletteAktionstabelle){
+        for(let aktion2 of ballwoegal){
+          if(aktion1.spielrichtung == aktion2.spielrichtung){
+            console.log("found match ballwo egal");
+            aktion1.bewegezu = aktion2.bewegezu;
+          }
         }
       }
-    }
-    //aendere fuer ballwo egal
-    let spielrichtungegal = aktionstabelle.filter(aktion => aktion.spielrichtung == -1)
-    //loeschen der ballwoegal Aktionen
-    for(let spielrichtunge of spielrichtungegal){
-      aktionstabelle.splice(aktionstabelle.indexOf(spielrichtunge), 1);
-    }
-    for(let aktion1 of kompletteAktionstabelle){
-      for(let aktion2 of spielrichtungegal){
-        if(aktion1.ballwo == aktion2.ballwo){
-          console.log("found match spielrichtung egal");
-          aktion1.bewegezu = aktion2.bewegezu;
+      //aendere fuer ballwo egal
+      let spielrichtungegal = aktionstabelle.filter(aktion => aktion.spielrichtung == -1)
+      //loeschen der ballwoegal Aktionen
+      for(let spielrichtunge of spielrichtungegal){
+        aktionstabelle.splice(aktionstabelle.indexOf(spielrichtunge), 1);
+      }
+      for(let aktion1 of kompletteAktionstabelle){
+        for(let aktion2 of spielrichtungegal){
+          if(aktion1.ballwo == aktion2.ballwo){
+            console.log("found match spielrichtung egal");
+            aktion1.bewegezu = aktion2.bewegezu;
+          }
         }
       }
-    }
-    //aendere fuer nicht egal
-    for(let aktion1 of kompletteAktionstabelle){
-      for(let aktion2 of aktionstabelle){
-        if(aktion1.ballwo == aktion2.ballwo
-          && aktion1.spielrichtung == aktion2.spielrichtung){
-          console.log("found match nicht egal");
-          aktion1.bewegezu = aktion2.bewegezu;
+      //aendere fuer nicht egal
+      for(let aktion1 of kompletteAktionstabelle){
+        for(let aktion2 of aktionstabelle){
+          if(aktion1.ballwo == aktion2.ballwo
+            && aktion1.spielrichtung == aktion2.spielrichtung){
+            console.log("found match nicht egal");
+            aktion1.bewegezu = aktion2.bewegezu;
+          }
         }
       }
+      console.log(kompletteAktionstabelle)
     }
-    
   }
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
