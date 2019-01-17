@@ -22,10 +22,6 @@ export class EntscheidungsbaumBerechnung {
 
     console.log(this.bewegungsZaehler(aktionstabelle))
 
-        console.log(this.istNumber(1))
-            console.log(this.istNumber("123"))
-                console.log(this.istNumber("fsdfs"))
-                    console.log(this.istNumber("sdfsfdd123"))
   }
 
   //Die einzelnen Moeglichkeiten fuer jede Spalte finden
