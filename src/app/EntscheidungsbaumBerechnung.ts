@@ -1,3 +1,5 @@
+import { Frage } from "./Frage"
+
 export class EntscheidungsbaumBerechnung {
 
   //Variable in dem der Entscheidungsbaum abgespeichert wird.
@@ -26,7 +28,6 @@ export class EntscheidungsbaumBerechnung {
     console.log(frage.entspricht(3));
     console.log(frage.ausgeben());
 
-    
   }
 
   //Die einzelnen Moeglichkeiten fuer jede Spalte finden
@@ -60,47 +61,5 @@ export class EntscheidungsbaumBerechnung {
       return false;
     }
     return true;
-  }
-
-  //zum abspeicher der Fragen
-  class Frage {
-
-    spalte: number;
-
-    wert: any;
-
-    kopfzeile: any;
-
-    constructor(spalte, wert, kopfzeile){
-      this.spalte = spalte;
-      this.wert = wert;
-      this.kopfzeile = kopfzeile;
-    }
-
-    //ueberpruefe ob die Variable eine number ist
-    istNumber(variable: any){
-      if(isNaN(Number(variable))){
-        return false;
-      }
-      return true;
-    }
-
-    //Vergleiche das Merkmal im Beispiel mit dem dieser Frage
-    entspricht(beispiel){
-      let wert: any = beispiel[this.spalte];
-      if(this.istNumber(wert)){
-        return wert >= this.wert;
-      }
-      return wert == self.value;
-    }
-
-    //das ist eine Hilfmethode fuer die ausgabe des gesammten Baums
-    ausgeben(){
-      let kondition = "=="
-      if(this.istNumber(this.wert)){
-        kondition = ">=";
-      }
-      return String("Ist " + this.kopfzeile[this.spalte] + " " + kondition + " " + this.wert);
-    }
   }
 }
