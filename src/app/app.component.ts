@@ -236,7 +236,7 @@ export class AppComponent implements OnInit {
     //alle werte auffuellen
     for(let ballwo: number = 0; ballwo < this.angriffspieler.length; ballwo++){
       for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
-        kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
+        kompletteAktionstabelle.push([ballwo, spielrichtung, "-1"]);
       }
     }
     //bei leerer Aktionstabelle nichts aendern
