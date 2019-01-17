@@ -1,4 +1,4 @@
-<div style="text-align: center">
+[bewegezuIndex]<div style="text-align: center">
   <h1>
     Angular Prototyp
   </h1>
@@ -64,7 +64,7 @@
     <tr *ngFor="let aktion of selectedSpieler.aktionstabelle">
       <td>
         <!-- Spieler mit dem Ball -->
-        <select name = "ballwoselect" [value] = "aktion.ballwo">
+        <select name = "ballwoselect" [value] = "aktion[ballwoIndex]">
           <option [value] = "angriffspieler.indexOf(ballwoOption) "
           *ngFor="let ballwoOption of angriffspieler">
             {{ballwoOption.name}}
@@ -75,7 +75,7 @@
 
       <td>
         <!-- Ballrichtung -->
-        <select name = "spielrichtungselect" [value] = "aktion.spielrichtung">
+        <select name = "spielrichtungselect" [value] = "aktion[spielrichtungIndex]">
           <option [value]="1">Links</option>
           <option [value]="0">Rechts</option>
           <option [value]="-1">egal</option>
@@ -84,7 +84,7 @@
 
       <td class = "thick-left-border">
         <!-- zu Welchem Spieler soll sich bewegt werden? -->
-        <select name = "bewegezuselect" [value] = "aktion.bewegezu">
+        <select name = "bewegezuselect" [value] = "aktion[bewegezuIndex]">
           <option [value]="angriffspieler.indexOf(bewegezuOption)"
           *ngFor="let bewegezuOption of angriffspieler">
             {{bewegezuOption.name}}

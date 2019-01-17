@@ -68,10 +68,15 @@ export class AppComponent implements OnInit {
   //dient zur Identifikation des Spielers, dessen Optionen gerade bearbeitet werden.
   selectedSpieler: Spieler;
 
+  //Variablen zur findung des richtigen Indexes in Aktionen
+  ballwoIndex: number = 0;
+  spielrichtungIndex: number = 1;
+  bewegezuIndex: number = 2;
+
   //Construktor indem die Spieler, Regeln und der Ball initialisiert werden.
   ngOnInit() {
     console.log("app.component.ts");
-    this.initSpielers();
+    this.initSpieler();
     this.initAktionstabellen();
     this.changeSelectedSpielerHandler(0);
     this.ballx = this.angriffspieler[2].x;
@@ -80,7 +85,7 @@ export class AppComponent implements OnInit {
   }
 
   //Hilfsmethode um die Spieler zu Initialisieren. Kann wahrscheinlich auch in eine JSON
-  initSpielers() {
+  initSpieler() {
     //Angriffspieler JSON einlesen
     let angriff = require('../assets/json/angriffspieler.json');
     //durch alle Spieler laufen und in angriffspieler pushen
@@ -103,7 +108,7 @@ export class AppComponent implements OnInit {
     //durch alle Spieler laufen und Regeln einspeichern
     aktionstabellen.spieler.forEach(spieler => {
       spieler.aktionstabelle.forEach(aktion =>{
-        this.abwehrspieler[spieler.spieler_id].addAktion(aktion.ballwo, aktion.spielrichtung, aktion.bewegezu);
+        this.abwehrspieler[spieler.spieler_id].addAktion(aktion);
       })
     });
   }
@@ -176,14 +181,27 @@ export class AppComponent implements OnInit {
     }, 750);
   }
 
-  getBewegezu(aktionstabelle: any[], hinweise: any){
-    for(let aktion of aktionstabelle){
-      if(aktion.ballwo == hinweise.ballwo
-        && aktion.spielrichtung == hinweise.spielrichtung){
-          return aktion.bewegezu;
+  vglArrays(array1: any, array2: any){
+    if(array1.length != array2.length){
+      return false;
+    }
+    for(let index: number = 0; index < array1.length; index++){
+      if(array1[index] != array2[index]){
+        return false;
       }
     }
-    return -1
+    return true;
+  }
+
+  loescheDopplungenAusDoppelArray(array){
+    for(let elementIndex: number = 0; elementIndex < array.length; elementIndex++){
+      for(let vglIndex: number = elementIndex; vglIndex < array.length; vglIndex++){
+        if(elementIndex != vglIndex && this.vglArrays(array[elementIndex], array[vglIndex]) == true){
+          vglIndex--;
+        }
+      }
+    }
+    return array;
   }
 
   //Aenderungen an der Bearbeitung der Aktionstabelle von selected Spieler bestaetigen.
@@ -198,19 +216,13 @@ export class AppComponent implements OnInit {
 
     //Werte aus den Aktionen uebertragen in die Aktionstabelle.
     for(let index:number = 0; index < ballwoselect.length; index++){
-      aktionstabelle.push({
-        ballwo: ballwoselect[index].value,
-        spielrichtung: spielrichtungselect[index].value,
-        bewegezu: bewegezuselect[index].value})
+      aktionstabelle.push([
+        ballwoselect[index].value,
+        spielrichtungselect[index].value,
+        bewegezuselect[index].value])
     }
 
-    //loesche dopplungen und redundante Aktionen
-    aktionstabelle = aktionstabelle.filter(function(aktion, index, self){
-      return index === self.findIndex(function(a){
-        return a.ballwo === aktion.ballwo
-          && a.spielrichtung === aktion.spielrichtung
-      });
-    });
+    aktionstabelle = this.loescheDopplungenAusDoppelArray(aktionstabelle);
 
     //Aktionstabelle dem selectedSpieler geben
     this.selectedSpieler.aktionstabelle = Object.assign([], aktionstabelle);
@@ -231,47 +243,47 @@ export class AppComponent implements OnInit {
     if(aktionstabelle.length > 0){
       //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
       //aendere fuer alles egal
-      let allesegal = aktionstabelle.find(aktion => aktion.ballwo == -1 && aktion.spielrichtung == -1);
+      let allesegal = aktionstabelle.find(aktion => aktion[this.ballwoIndex] == -1 && aktion[this.spielrichtungIndex] == -1);
       //loeschen der allesegal Aktion
       aktionstabelle.splice(aktionstabelle.indexOf(allesegal), 1);
       for(let aktion of kompletteAktionstabelle){
-        aktion.bewegezu = allesegal.bewegezu;
+        aktion[this.bewegezuIndex] = allesegal[this.bewegezuIndex];
       }
       //aendere fuer spielrichtung egal
-      let ballwoegal = aktionstabelle.filter(aktion => aktion.ballwo == -1)
+      let ballwoegal = aktionstabelle.filter(aktion => aktion[this.ballwoIndex] == -1)
       //loeschen der spielrichtungegal Aktionen
       for(let ballwoe of ballwoegal){
         aktionstabelle.splice(aktionstabelle.indexOf(ballwoe), 1);
       }
       for(let aktion1 of kompletteAktionstabelle){
         for(let aktion2 of ballwoegal){
-          if(aktion1.spielrichtung == aktion2.spielrichtung){
+          if(aktion1[this.spielrichtungIndex] == aktion2[this.spielrichtungIndex]){
             console.log("found match ballwo egal");
-            aktion1.bewegezu = aktion2.bewegezu;
+            aktion1[this.bewegezuIndex] = aktion2[this.bewegezuIndex];
           }
         }
       }
       //aendere fuer ballwo egal
-      let spielrichtungegal = aktionstabelle.filter(aktion => aktion.spielrichtung == -1)
+      let spielrichtungegal = aktionstabelle.filter(aktion => aktion[this.spielrichtungIndex] == -1)
       //loeschen der ballwoegal Aktionen
       for(let spielrichtunge of spielrichtungegal){
         aktionstabelle.splice(aktionstabelle.indexOf(spielrichtunge), 1);
       }
       for(let aktion1 of kompletteAktionstabelle){
         for(let aktion2 of spielrichtungegal){
-          if(aktion1.ballwo == aktion2.ballwo){
+          if(aktion1[this.ballwoIndex] == aktion2[this.ballwoIndex]){
             console.log("found match spielrichtung egal");
-            aktion1.bewegezu = aktion2.bewegezu;
+            aktion1[this.bewegezuIndex] = aktion2[this.bewegezuIndex];
           }
         }
       }
       //aendere fuer nicht egal
       for(let aktion1 of kompletteAktionstabelle){
         for(let aktion2 of aktionstabelle){
-          if(aktion1.ballwo == aktion2.ballwo
-            && aktion1.spielrichtung == aktion2.spielrichtung){
+          if(aktion1[this.ballwoIndex] == aktion2[this.ballwoIndex]
+            && aktion1[this.spielrichtungIndex] == aktion2[this.spielrichtungIndex]){
             console.log("found match nicht egal");
-            aktion1.bewegezu = aktion2.bewegezu;
+            aktion1[this.bewegezuIndex] = aktion2[this.bewegezuIndex];
           }
         }
       }
@@ -282,36 +294,6 @@ export class AppComponent implements OnInit {
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
   checkForSpielerbewegement(){
-    let bewegezu: number = -1;
-    for(let spieler of this.abwehrspieler){
-      if(spieler.relevanzen.ballwo == true){
-        //ballwo relevant
-        if(spieler.relevanzen.spielrichtung == true){
-          //spielrichtung relevant
-          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: this.spielrichtung})
-        }
-        else{
-          //spielrichtung unrelevant
-          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: this.ballwo, spielrichtung: -1})
-        }
-      }
-      else{
-        //ballwo unrelevent
-        if(spieler.relevanzen.spielrichtung == true){
-          //spielrichtung relevant
-          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: this.spielrichtung})
-        }
-        else{
-          //spielrichtung unrelevant
-          bewegezu = this.getBewegezu(spieler.aktionstabelle, {ballwo: -1, spielrichtung: -1})
-        }
-      }
-      if(bewegezu == -1){
-        this.bewegeSpieler(spieler, spieler.startX, spieler.startY);
-      }
-      else{
-        this.bewegeSpieler(spieler, this.angriffspieler[bewegezu].x, this.angriffspieler[bewegezu].y);
-      }
-    }
+    console.log("NO CODE checkForSpielerbewegement")
   }
 }

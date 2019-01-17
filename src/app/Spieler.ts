@@ -13,9 +13,6 @@ export class Spieler {
   //Boolen Variable die bei jedem umaendern die Animation triggert.
   bewege: boolean = false;
 
-  //aktuelle zu bearbeitende Aktion
-  aktuelleAktion: number = 0;
-
   /**
   Die Aktionstabelle fuer diesen Spieler.
   Aktionen bestehen aus den beiden Bedingungen ballwo und spielrichtung
@@ -25,11 +22,10 @@ export class Spieler {
   */
   aktionstabelle: any = [];
 
-  //hier werden die Relevanzen fuer den Entscheidungsbaum gespeichert
-  relevanzen: any = {
-    ballwo: false,
-    spielrichtung: false
-  }
+  //Variablen zur findung des richtigen Indexes in Aktionen
+  ballwoIndex: number = 0;
+  spielrichtung: number = 1;
+  bewegezuIndex: number = 2;
 
   //Konstruktor indem die Startposition und Name festgelegt wird
   constructor(x: number, y: number, name: string){
@@ -42,19 +38,13 @@ export class Spieler {
   }
 
   //Methode zum hinzufuegen einer Regel.
-  addAktion(ballwoIndex: number, spielrichtung: number, bewegezuIndex: number){
-    this.aktionstabelle.push({
-      ballwo: ballwoIndex,
-      spielrichtung: spielrichtung,
-      bewegezu: bewegezuIndex});
+  addAktion(aktion: any){
+    this.aktionstabelle.push(aktion);
   }
 
   //Methode zum hinzufuegen einer leeren Regel.
   addAktionLeer(){
-    this.aktionstabelle.push({
-      ballwo: -1,
-      spielrichtung: -1,
-      bewegezu: -1});
+    this.aktionstabelle.push([-1,-1,-1]);
   }
 
   //Aktion loeschen
