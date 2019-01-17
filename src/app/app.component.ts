@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, animate, style, transition } from '@angular/animations'
+import { Spieler } from "./Spieler"
 
 /**
 In diesem Component Teil wird alles geladen, was wir brauchen.
@@ -214,14 +215,19 @@ export class AppComponent implements OnInit {
     //Aktionstabelle dem selectedSpieler geben
     this.selectedSpieler.aktionstabelle = Object.assign([], aktionstabelle);
     //Entscheidungsbaum erstellen
-    //erstelle komplette aktionstabelle ohne egal Werte
-    //alle werte auffuellen
     let kompletteAktionstabelle: any = [];
+    kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, aktionstabelle);
+  }
+
+  //erstelle komplette aktionstabelle ohne egal Werte
+  egalWerteExpandieren(kompletteAktionstabelle: any, aktionstabelle: any){
+    //alle werte auffuellen
     for(let ballwo: number = 0; ballwo < this.angriffspieler.length; ballwo++){
-     for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
-       kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
-     }
+      for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
+        kompletteAktionstabelle.push({ballwo: ballwo, spielrichtung: spielrichtung, bewegezu: "-1"});
+      }
     }
+    //bei leerer Aktionstabelle nichts aendern
     if(aktionstabelle.length > 0){
       //aendere bewegezu Werte mit folgender Prioritaet: nicht egal; spielrichtung egal; ballwo egal; alles egal;
       //aendere fuer alles egal
@@ -271,6 +277,7 @@ export class AppComponent implements OnInit {
       }
       console.log(kompletteAktionstabelle)
     }
+    return kompletteAktionstabelle;
   }
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
@@ -305,119 +312,6 @@ export class AppComponent implements OnInit {
       else{
         this.bewegeSpieler(spieler, this.angriffspieler[bewegezu].x, this.angriffspieler[bewegezu].y);
       }
-    }
-  }
-}
-
-//Klasse fuer Spieler
-class Spieler {
-  //startX und startY fuer das zurueckziehen an die Anfangsposition
-  startX: number;
-  startY: number;
-  //veraenderbare aktuelle Position
-  x: number;
-  y: number;
-
-  //Name des Spielers
-  name: string;
-
-  //Boolen Variable die bei jedem umaendern die Animation triggert.
-  bewege: boolean = false;
-
-  //aktuelle zu bearbeitende Aktion
-  aktuelleAktion: number = 0;
-
-  /**
-  Die Aktionstabelle fuer diesen Spieler.
-  Aktionen bestehen aus den beiden Bedingungen ballwo und spielrichtung
-  und der eigentlichen Aktion mit bewegezu.
-  Dabei sind ballwo und bewegezu die id fuer den Angriffspieler zu dem sich hinbewegt werden soll.
-  Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwo = -1 und spielrichtung = -1.
-  */
-  aktionstabelle: any = [];
-
-  //hier werden die Relevanzen fuer den Entscheidungsbaum gespeichert
-  relevanzen: any = {
-    ballwo: false,
-    spielrichtung: false
-  }
-
-  //Konstruktor indem die Startposition und Name festgelegt wird
-  constructor(x: number, y: number, name: string){
-    this.startX = x;
-    this.startY = y;
-    this.x = x;
-    this.y = y;
-
-    this.name = name;
-  }
-
-  //Methode zum hinzufuegen einer Regel.
-  addAktion(ballwoIndex: number, spielrichtung: number, bewegezuIndex: number){
-    this.aktionstabelle.push({
-      ballwo: ballwoIndex,
-      spielrichtung: spielrichtung,
-      bewegezu: bewegezuIndex});
-    this.checkRelevanzen();
-  }
-
-  //Methode zum hinzufuegen einer leeren Regel.
-  addAktionLeer(){
-    this.aktionstabelle.push({
-      ballwo: -1,
-      spielrichtung: -1,
-      bewegezu: -1});
-  }
-
-  //Aktion loeschen
-  removeAktion(aktion: any){
-    this.aktionstabelle.splice(this.aktionstabelle.indexOf(aktion), 1);
-  }
-
-  setAktuelleAktion(aktion: any){
-    this.aktuelleAktion = this.aktionstabelle.indexOf(aktion);
-    console.log("aktuelle Aktion: " + this.aktuelleAktion);
-  }
-
-  //Methode zum aendern des Spielers der den Ball hat in einer Regel.
-  changeBallwoInAktion(aktionUndBallSpielerIndex: any){
-    //this.entscheidungsbaum[aktionUndBallSpielerIndex[0]].ballwoIndex = aktionUndBallSpielerIndex[2];
-  }
-
-  //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
-  changeBallrichtungInAktion(aktionUndBewegeSpielerIndex: any){
-    /**if(aktionUndBewegeSpielerIndex[2] != "-"){
-      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].bewegezuIndex = aktionUndBewegeSpielerIndex[2];
-      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = false;
-    } else {
-      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = true;
-    }*/
-  }
-
-  //Methode zum aendern des Spielers zu dem sich hinbewegt werden soll in einer Regel.
-  changeBewegezuInAktion(aktionUndBewegeSpielerIndex: any){
-    /**if(aktionUndBewegeSpielerIndex[2] != "-"){
-      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].bewegezuIndex = aktionUndBewegeSpielerIndex[2];
-      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = false;
-    } else {
-      this.entscheidungsbaum[aktionUndBewegeSpielerIndex[0]].backToStart = true;
-    }*/
-  }
-
-  checkRelevanzen(){
-    let ballwo: boolean = false;
-    let spielrichtung: boolean = false;
-    for(let aktion of this.aktionstabelle){
-      if(aktion.ballwo > -1){
-        ballwo = true;
-      }
-      if(aktion.spielrichtung > -1){
-        spielrichtung = true;
-      }
-    }
-    this.relevanzen = {
-      ballwo: ballwo,
-      spielrichtung: spielrichtung
     }
   }
 }
