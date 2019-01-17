@@ -1,5 +1,4 @@
 /**Code to accompany Machine Learning Recipes //8.
-
 We'll write a Decision Tree Classifier, in pure Python.
 */
 
@@ -325,7 +324,7 @@ def build_tree(rows):
     return Decision_Node(question, true_branch, false_branch)
 
 
-def console.log_tree(node, spacing=""):
+def log_tree(node, spacing=""):
     /**World's most elegant tree console.loging function.*/
 
     // Base case: we've reached a leaf
@@ -338,15 +337,15 @@ def console.log_tree(node, spacing=""):
 
     // Call this function recursively on the true branch
     console.log (spacing + '--> True:')
-    console.log_tree(node.true_branch, spacing + "  ")
+    log_tree(node.true_branch, spacing + "  ")
 
     // Call this function recursively on the false branch
     console.log (spacing + '--> False:')
-    console.log_tree(node.false_branch, spacing + "  ")
+    log_tree(node.false_branch, spacing + "  ")
 
 
 def classify(row, node):
-    */See the 'rules of recursion' above./**
+    /**See the 'rules of recursion' above.*/
 
     // Base case: we've reached a leaf
     if isinstance(node, Leaf):
@@ -370,7 +369,7 @@ def classify(row, node):
 //////////////
 
 def console.log_leaf(counts):
-    */A nicer way to console.log the predictions at a leaf./**
+    /**A nicer way to console.log the predictions at a leaf.*/
     total = sum(counts.values()) * 1.0
     probs = {}
     for lbl in counts.keys():

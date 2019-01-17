@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, animate, style, transition } from '@angular/animations'
 import { Spieler } from "./Spieler"
+import { EntscheidungsbaumBerechnung } from "./EntscheidungsbaumBerechnung"
 
 /**
 In diesem Component Teil wird alles geladen, was wir brauchen.
@@ -227,8 +228,13 @@ export class AppComponent implements OnInit {
     //Aktionstabelle dem selectedSpieler geben
     this.selectedSpieler.aktionstabelle = Object.assign([], aktionstabelle);
     //Entscheidungsbaum erstellen
+    //komplette Aktionstabelle erstellen ohne egal Werte
     let kompletteAktionstabelle: any = [];
     kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, aktionstabelle);
+
+    let entscheidungsbaum = new EntscheidungsbaumBerechnung();
+
+    entscheidungsbaum.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
   }
 
   //erstelle komplette aktionstabelle ohne egal Werte
@@ -236,7 +242,7 @@ export class AppComponent implements OnInit {
     //alle werte auffuellen
     for(let ballwo: number = 0; ballwo < this.angriffspieler.length; ballwo++){
       for(let spielrichtung: number = 0; spielrichtung < 2; spielrichtung++){
-        kompletteAktionstabelle.push([ballwo, spielrichtung, "-1"]);
+        kompletteAktionstabelle.push([ballwo, spielrichtung, -1]);
       }
     }
     //bei leerer Aktionstabelle nichts aendern
@@ -258,7 +264,6 @@ export class AppComponent implements OnInit {
       for(let aktion1 of kompletteAktionstabelle){
         for(let aktion2 of ballwoegal){
           if(aktion1[this.spielrichtungIndex] == aktion2[this.spielrichtungIndex]){
-            console.log("found match ballwo egal");
             aktion1[this.bewegezuIndex] = aktion2[this.bewegezuIndex];
           }
         }
@@ -272,7 +277,6 @@ export class AppComponent implements OnInit {
       for(let aktion1 of kompletteAktionstabelle){
         for(let aktion2 of spielrichtungegal){
           if(aktion1[this.ballwoIndex] == aktion2[this.ballwoIndex]){
-            console.log("found match spielrichtung egal");
             aktion1[this.bewegezuIndex] = aktion2[this.bewegezuIndex];
           }
         }
@@ -282,12 +286,10 @@ export class AppComponent implements OnInit {
         for(let aktion2 of aktionstabelle){
           if(aktion1[this.ballwoIndex] == aktion2[this.ballwoIndex]
             && aktion1[this.spielrichtungIndex] == aktion2[this.spielrichtungIndex]){
-            console.log("found match nicht egal");
             aktion1[this.bewegezuIndex] = aktion2[this.bewegezuIndex];
           }
         }
       }
-      console.log(kompletteAktionstabelle)
     }
     return kompletteAktionstabelle;
   }
