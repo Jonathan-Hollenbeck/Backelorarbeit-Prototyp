@@ -23,7 +23,7 @@ export class EntscheidungsbaumBerechnung {
       return null;
     }
 
-    return baue_baum(aktionstabelle);
+    return this.baue_baum(aktionstabelle);
   }
 
   //Die einzelnen Moeglichkeiten fuer jede Spalte finden

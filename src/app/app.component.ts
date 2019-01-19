@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, animate, style, transition } from '@angular/animations'
 import { Spieler } from "./Spieler"
 import { EntscheidungsbaumBerechnung } from "./Entscheidungsbaum/EntscheidungsbaumBerechnung"
+import { Entscheidungs_Knoten } from "./Entscheidungsbaum/Entscheidungs_Knoten"
 
 /**
 In diesem Component Teil wird alles geladen, was wir brauchen.
@@ -78,7 +79,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     console.log("app.component.ts");
     this.initSpieler();
-    this.initAktionstabellen();
+    this.initAktionstabellenUndEntscheidungsbaeume();
     this.changeSelectedSpielerHandler(0);
     this.ballx = this.angriffspieler[2].x;
     this.bally = this.angriffspieler[2].y;
@@ -103,7 +104,7 @@ export class AppComponent implements OnInit {
   }
 
   //Initialisiere Regeln fuer Spieler aus einer JSON Datei
-  initAktionstabellen() {
+  initAktionstabellenUndEntscheidungsbaeume() {
     //JSON einlesen
     let aktionstabellen = require('../assets/json/6_0_abwehr.json');
     //durch alle Spieler laufen und Regeln einspeichern
@@ -112,6 +113,14 @@ export class AppComponent implements OnInit {
         this.abwehrspieler[spieler.spieler_id].addAktion(aktion);
       })
     });
+
+    //init Entscheidungsbaeume
+    let entscheidungsbaumBerechnung = new EntscheidungsbaumBerechnung();
+    let kompletteAktionstabelle: any = [];
+    for(let spieler of this.abwehrspieler){
+      kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, spieler.aktionstabelle);
+      spieler.entscheidungsbaum = entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
+    }
   }
 
   //Den aktuell bearbeitbaren Spieler wechseln
@@ -182,6 +191,7 @@ export class AppComponent implements OnInit {
     }, 750);
   }
 
+  //vergleiche zwei Arrays unf gib true zurueck wenn sie die gleichen Werte haben und geich lang sind.
   vglArrays(array1: any, array2: any){
     if(array1.length != array2.length){
       return false;
@@ -194,6 +204,7 @@ export class AppComponent implements OnInit {
     return true;
   }
 
+  //loescht dopplungen aus einem doppelten Array
   loescheDopplungenAusDoppelArray(array){
     for(let elementIndex: number = 0; elementIndex < array.length; elementIndex++){
       for(let vglIndex: number = elementIndex; vglIndex < array.length; vglIndex++){
@@ -206,6 +217,7 @@ export class AppComponent implements OnInit {
   }
 
   //Aenderungen an der Bearbeitung der Aktionstabelle von selected Spieler bestaetigen.
+  //und neuen Entscheidungsbaum berechnen.
   bestaetigeAenderungen(){
     //Werte aus den Dropdown Menues lesen.
     let ballwoselect: any = document.getElementsByName('ballwoselect');
@@ -232,9 +244,9 @@ export class AppComponent implements OnInit {
     let kompletteAktionstabelle: any = [];
     kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, aktionstabelle);
 
-    let entscheidungsbaum = new EntscheidungsbaumBerechnung();
+    let entscheidungsbaumBerechnung = new EntscheidungsbaumBerechnung();
 
-    entscheidungsbaum.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
+    this.selectedSpieler.entscheidungsbaum = entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
   }
 
   //erstelle komplette aktionstabelle ohne egal Werte

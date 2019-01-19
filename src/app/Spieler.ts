@@ -1,3 +1,4 @@
+import { Entscheidungs_Knoten } from "./Entscheidungsbaum/Entscheidungs_Knoten"
 //Klasse fuer Spieler
 export class Spieler {
   //startX und startY fuer das zurueckziehen an die Anfangsposition
@@ -26,6 +27,9 @@ export class Spieler {
   ballwoIndex: number = 0;
   spielrichtung: number = 1;
   bewegezuIndex: number = 2;
+
+  //entscheidungsbaum
+  entscheidungsbaum: Entscheidungs_Knoten;
 
   //Konstruktor indem die Startposition und Name festgelegt wird
   constructor(x: number, y: number, name: string){
