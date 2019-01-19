@@ -22,7 +22,7 @@ export class Frage {
   }
 
   //Vergleiche das Merkmal im Beispiel mit dem dieser Frage
-  entspricht(beispiel){
+  testen(beispiel){
     let wert: any = beispiel[this.spalte];
     if(this.istNumber(wert)){
       return wert >= this.wert;
