@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, animate, style, transition } from '@angular/animations'
 import { Spieler } from "./Spieler"
-import { EntscheidungsbaumBerechnung } from "./EntscheidungsbaumBerechnung"
+import { EntscheidungsbaumBerechnung } from "./Entscheidungsbaum/EntscheidungsbaumBerechnung"
 
 /**
 In diesem Component Teil wird alles geladen, was wir brauchen.
