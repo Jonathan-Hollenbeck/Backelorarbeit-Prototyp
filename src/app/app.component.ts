@@ -75,6 +75,9 @@ export class AppComponent implements OnInit {
   spielrichtungIndex: number = 1;
   bewegezuIndex: number = 2;
 
+  //zum erstellen einen Entscheidungsbaumes und zur klassifizierung
+  entscheidungsbaumBerechnung = new EntscheidungsbaumBerechnung();
+
   //Construktor indem die Spieler, Regeln und der Ball initialisiert werden.
   ngOnInit() {
     console.log("app.component.ts");
@@ -115,11 +118,9 @@ export class AppComponent implements OnInit {
     });
 
     //init Entscheidungsbaeume
-    let entscheidungsbaumBerechnung = new EntscheidungsbaumBerechnung();
-    let kompletteAktionstabelle: any = [];
     for(let spieler of this.abwehrspieler){
-      kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, spieler.aktionstabelle);
-      spieler.entscheidungsbaum = entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
+      let kompletteAktionstabelle: any = this.egalWerteExpandieren([], Object.assign([], spieler.aktionstabelle));
+      spieler.entscheidungsbaum = this.entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
     }
   }
 
@@ -244,9 +245,7 @@ export class AppComponent implements OnInit {
     let kompletteAktionstabelle: any = [];
     kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, aktionstabelle);
 
-    let entscheidungsbaumBerechnung = new EntscheidungsbaumBerechnung();
-
-    this.selectedSpieler.entscheidungsbaum = entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
+    this.selectedSpieler.entscheidungsbaum = this.entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
   }
 
   //erstelle komplette aktionstabelle ohne egal Werte
@@ -308,6 +307,15 @@ export class AppComponent implements OnInit {
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
   checkForSpielerbewegement(){
-    console.log("NO CODE checkForSpielerbewegement")
+    for(let spieler of this.abwehrspieler){
+      let bewegung: any = this.entscheidungsbaumBerechnung.klassifizieren([this.ballwo, this.spielrichtung], spieler.entscheidungsbaum);
+      bewegung = bewegung[0][this.bewegezuIndex];
+      if(bewegung == -1){
+        this.bewegeSpieler(spieler, spieler.startX, spieler.startY);
+      }
+      else{
+        this.bewegeSpieler(spieler, this.angriffspieler[bewegung].x, this.angriffspieler[bewegung].y);
+      }
+    }
   }
 }

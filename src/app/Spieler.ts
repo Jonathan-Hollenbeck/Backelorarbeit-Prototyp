@@ -29,7 +29,7 @@ export class Spieler {
   bewegezuIndex: number = 2;
 
   //entscheidungsbaum
-  entscheidungsbaum: Entscheidungs_Knoten;
+  entscheidungsbaum: any;
 
   //Konstruktor indem die Startposition und Name festgelegt wird
   constructor(x: number, y: number, name: string){
