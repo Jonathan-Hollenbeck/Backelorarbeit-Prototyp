@@ -18,13 +18,14 @@
       "spieler_id": 2,
       "aktionstabelle": [
         [-1,-1,-1],
-        [2,-1,2]
+        [2,0,2]
       ]
     },
     {
       "spieler_id": 3,
       "aktionstabelle": [
-        [-1,-1,-1]
+        [-1,-1,-1],
+        [2,1,2]
       ]
     },
     {
