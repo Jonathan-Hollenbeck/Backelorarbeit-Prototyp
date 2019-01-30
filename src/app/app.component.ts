@@ -187,7 +187,7 @@ export class AppComponent implements OnInit {
     */
     setTimeout(() => {
       this.bewegeBall();
-      this.checkForSpielerbewegement();
+      this.checkeSpielerBewegung();
       if (this.doLoop == true) this.loop();
     }, 750);
   }
@@ -306,7 +306,7 @@ export class AppComponent implements OnInit {
   }
 
   //checkt ob ein Abwehrspieler sich bewegen muss und bewegt ihn dementsprechend.
-  checkForSpielerbewegement(){
+  checkeSpielerBewegung(){
     for(let spieler of this.abwehrspieler){
       let bewegung: any = this.entscheidungsbaumBerechnung.klassifizieren([this.ballwo, this.spielrichtung], spieler.entscheidungsbaum);
       bewegung = bewegung[0][this.bewegezuIndex];
