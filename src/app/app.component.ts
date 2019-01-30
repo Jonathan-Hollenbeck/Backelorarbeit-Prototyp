@@ -245,6 +245,7 @@ export class AppComponent implements OnInit {
     let kompletteAktionstabelle: any = [];
     kompletteAktionstabelle = this.egalWerteExpandieren(kompletteAktionstabelle, aktionstabelle);
 
+    //setzte Entscheidungsbaum für den Spieler ein.
     this.selectedSpieler.entscheidungsbaum = this.entscheidungsbaumBerechnung.berechneEntscheidungsbaum(kompletteAktionstabelle, ["ballwo", "spielrichtung", "bewegezu"]);
   }
 
