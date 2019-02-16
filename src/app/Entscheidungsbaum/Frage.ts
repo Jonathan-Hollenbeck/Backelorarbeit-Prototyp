@@ -21,9 +21,11 @@ export class Frage {
     return true;
   }
 
-  //Vergleiche das Merkmal im Beispiel mit dem dieser Frage
-  testen(beispiel){
-    let wert: any = beispiel[this.spalte];
+  //Vergleiche das Merkmal im Test mit dem dieser Frage
+  testen(test){
+    //speicher den Wert aus der Spalte ab, der der Spalte dieser Frage entspricht.
+    let wert: any = test[this.spalte];
+    //Wenn der Wert numerisch ist, pruefe ob der Wert >= ist, sonst pruefe ob die Werte gleich sind.
     if(this.istNumber(wert)){
       return wert >= this.wert;
     }

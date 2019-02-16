@@ -1,6 +1,7 @@
 //zum abspeicher eines Blattes
 export class Blatt {
 
+  //Array mit den Vorhersagen in diesem Blatt.
   vorhersage: number[];
 
   constructor(vorhersage){
@@ -15,6 +16,7 @@ export class Blatt {
     return true;
   }
 
+  //Hilfsfunktion zum ausgeben des Blattes
   ausgeben(){
     if(this.istNumber(this.vorhersage) == true){
       return this.vorhersage;

@@ -1,6 +1,6 @@
 import { Frage } from "./Frage"
 
-//zum abspeicher eines Entscheidungs_Knoten
+//zum abspeichern eines Entscheidungs_Knoten
 export class Entscheidungs_Knoten {
 
   frage: Frage;
