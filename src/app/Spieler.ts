@@ -1,4 +1,5 @@
 import { Entscheidungs_Knoten } from "./Entscheidungsbaum/Entscheidungs_Knoten"
+import { Blatt } from "./Entscheidungsbaum/Blatt"
 //Klasse fuer Spieler
 export class Spieler {
   //startX und startY fuer das zurueckziehen an die Anfangsposition
@@ -22,11 +23,6 @@ export class Spieler {
   Die Aktion in der 0 Zeile ist immer die Default Aktion mit ballwo = -1 und spielrichtung = -1.
   */
   aktionstabelle: any = [];
-
-  //Variablen zur findung des richtigen Indexes in Aktionen
-  ballwoIndex: number = 0;
-  spielrichtung: number = 1;
-  bewegezuIndex: number = 2;
 
   //entscheidungsbaum
   entscheidungsbaum: any;

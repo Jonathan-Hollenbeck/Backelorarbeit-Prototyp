@@ -4,9 +4,6 @@ import { Entscheidungs_Knoten } from "./Entscheidungs_Knoten"
 
 export class EntscheidungsbaumBerechnung {
 
-  //Variable in dem der Entscheidungsbaum abgespeichert wird.
-  entscheidungsbaum: any;
-
   //Variablen zur findung des richtigen Indexes in Aktionen
   ballwoIndex: number = 0;
   spielrichtungIndex: number = 1;

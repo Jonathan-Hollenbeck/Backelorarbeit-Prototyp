@@ -2,7 +2,7 @@
 export class Blatt {
 
   //Array mit den Vorhersagen in diesem Blatt.
-  vorhersage: number[];
+  vorhersage: any;
 
   constructor(vorhersage){
     this.vorhersage = vorhersage;
